@@ -34,7 +34,6 @@ You can activate/deactivate the extension by clicking on it and simply turn it o
 
  Version | Date | Note 
  --------|------|-----
- [v0.0.0.1-beta.1]()|N/A|N/A
  [v0.0.0.2-beta.2](https://github.com/Mallow-x/BetterVoirAnime/releases/tag/v0.0.0.2-beta.2)|2022-08-01 21:03|N/A
 
 # ✪ Feedback
