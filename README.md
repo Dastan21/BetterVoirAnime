@@ -25,7 +25,7 @@ ___Better VoirAnime___  is a non-official Chrome Extension for the streaming web
 
 # INSTALLATION
 
-Download [latest version](), unzip it.
+Download [latest version](https://github.com/Mallow-x/BetterVoirAnime/releases/latest), unzip it.
 In Chrome, go to [extensions](chrome://extensions) and click on "Charger l'extension non empaquetée". Select the unpacked files you just got and have fun.
 
 You can activate/deactivate the extension by clicking on it and simply turn it off (Adblock functionnality will continue is work)
