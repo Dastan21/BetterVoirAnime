@@ -25,6 +25,13 @@ ___Better VoirAnime___  is a non-official Chrome Extension for the streaming web
 
 # INSTALLATION
 
+- AUTO
+    -
+
+Download the [BetterVoirAnime.crx]() and drag it into Chrome. That it
+
+- MANUAL
+    -
 Download [latest version](https://github.com/Mallow-x/BetterVoirAnime/releases/latest), unzip it.
 In Chrome, go to [extensions](chrome://extensions) and click on "Charger l'extension non empaquetée". Select the unpacked files you just got and have fun.
 
