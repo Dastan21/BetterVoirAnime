@@ -28,7 +28,7 @@ ___Better VoirAnime___  is a non-official Chrome Extension for the streaming web
 - AUTO
     -
 
-Download the [BetterVoirAnime.crx]() and drag it into Chrome. That it
+Download the [BetterVoirAnime.crx](https://github.com/Mallow-x/BetterVoirAnime/releases/latest) and drag it into Chrome. That it
 
 - MANUAL
     -
@@ -41,6 +41,7 @@ You can activate/deactivate the extension by clicking on it and simply turn it o
 
  Version | Date | Note 
  --------|------|-----
+ [v0.0.0.3](https://github.com/Mallow-x/BetterVoirAnime/releases/tag/v0.0.0.3)|2022-08-03 22:24|N/A
  [v0.0.0.2-beta.2](https://github.com/Mallow-x/BetterVoirAnime/releases/tag/v0.0.0.2-beta.2)|2022-08-01 21:03|N/A
 
 # ✪ Feedback
