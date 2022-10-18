@@ -1,0 +1,31 @@
+{
+  "name": "Better VoirAnime",
+  "version": "0.0.3",
+  "manifest_version": 3,
+  "description": "A powerful UI/UX changer for 'voiranime.com'",
+  "content_scripts": [
+    {
+      "js": ["dom.js"],
+      "css": ["styles.css"],
+      "matches": ["*://voiranime.com/*"]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["assets/**/*.*"],
+      "matches": ["*://voiranime.com/*"]
+    }
+  ],
+  "icons": {
+    "16": "assets/favicons/icon16.png",
+    "48": "assets/favicons/icon48.png",
+    "128": "assets/favicons/icon128.png"
+  },
+  "permissions": [
+    "storage",
+    "unlimitedStorage"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  }
+}
