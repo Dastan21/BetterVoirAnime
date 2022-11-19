@@ -1,3 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="22.62" height="22.62" viewBox="0 0 22.62 22.62">
-  <path id="light-mode-icon" d="M20,15.31,23.31,12,20,8.69V4H15.31L12,.69,8.69,4H4V8.69L.69,12,4,15.31V20H8.69L12,23.31,15.31,20H20V15.31ZM12,18V6a6,6,0,0,1,0,12Z" transform="translate(-0.69 -0.69)" fill="rgba(255,255,255,0.75)"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22.62 22.62">
+  <path
+    d="M20,15.31,23.31,12,20,8.69V4H15.31L12,.69,8.69,4H4V8.69L.69,12,4,15.31V20H8.69L12,23.31,15.31,20H20V15.31ZM12,18V6a6,6,0,0,1,0,12Z"
+    transform="translate(-0.69 -0.69)"
+    fill="currentcolor"
+  />
 </svg>

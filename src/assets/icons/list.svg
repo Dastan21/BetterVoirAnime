@@ -1,3 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="20" height="14" viewBox="0 0 20 14">
-  <path id="icon" d="M19,9H2v2H19Zm0-4H2V7H19ZM2,15H15V13H2Zm15-2v6l5-3Z" transform="translate(-2 -5)" fill="#fff"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 14">
+  <path
+    d="M19,9H2v2H19Zm0-4H2V7H19ZM2,15H15V13H2Zm15-2v6l5-3Z"
+    transform="translate(-2 -5)"
+    fill="currentcolor"
+  />
 </svg>

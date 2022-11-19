@@ -1,3 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="12" height="20" viewBox="0 0 12 20">
-  <path id="icon" d="M6,2V8h.01L6,8.01,10,12,6,16l.01.01H6V22H18V16.01h-.01L18,16l-4-4,4-3.99L17.99,8H18V2ZM16,16.5V20H8V16.5l4-4Zm-4-5-4-4V4h8V7.5Z" transform="translate(-6 -2)" fill="#fff"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 20">
+  <path
+    d="M6,2V8h.01L6,8.01,10,12,6,16l.01.01H6V22H18V16.01h-.01L18,16l-4-4,4-3.99L17.99,8H18V2ZM16,16.5V20H8V16.5l4-4Zm-4-5-4-4V4h8V7.5Z"
+    transform="translate(-6 -2)"
+    fill="currentcolor"
+  />
 </svg>

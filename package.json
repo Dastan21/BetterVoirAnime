@@ -1,28 +1,27 @@
 {
   "name": "better-voiranime",
-  "author": "Mallow",
-  "contributors": [
-    "Dastan"
-  ],
+  "author": "Dastan",
   "version": "0.0.3",
   "description": "A powerful UI/UX changer for 'voiranime.com'",
   "type": "module",
   "scripts": {
-    "dev": "npx rollup -c -w --environment NODE_ENV:development",
-    "build": "npx rollup -c",
-    "pack": "cd dist && npx crx pack -o BetterVoirAnime.crx"
+    "dev": "npx rimraf dev/** && npx rollup -c -w --environment NODE_ENV:development",
+    "build": "npx rollup -c"
   },
   "license": "MIT",
   "devDependencies": {
-    "@types/chrome": "^0.0.198",
-    "crx": "^5.0.1",
-    "eslint": "^8.25.0",
+    "@types/chrome": "^0.0.200",
+    "eslint": "^8.27.0",
     "eslint-config-standard": "^17.0.0",
     "eslint-plugin-import": "^2.26.0",
-    "eslint-plugin-n": "^15.3.0",
-    "eslint-plugin-promise": "^6.1.0",
-    "rollup": "^3.2.1",
+    "eslint-plugin-n": "^15.5.1",
+    "eslint-plugin-promise": "^6.1.1",
+    "rimraf": "^3.0.2",
+    "rollup": "^3.3.0",
     "rollup-plugin-chrome-extension": "^3.6.10",
+    "rollup-plugin-copy": "^3.4.0",
+    "rollup-plugin-import-css": "^3.1.0",
+    "rollup-plugin-svg-import": "^1.6.0",
     "rollup-plugin-terser": "^7.0.2"
   }
 }

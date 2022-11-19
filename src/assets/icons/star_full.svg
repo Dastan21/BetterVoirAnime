@@ -1,3 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="12" height="11.4" viewBox="0 0 12 11.4">
-  <path id="ic_star_24px" d="M8,11.162,11.708,13.4l-.984-4.218L14,6.344,9.686,5.978,8,2,6.314,5.978,2,6.344,5.276,9.182,4.292,13.4Z" transform="translate(-2 -2)" fill="#ff5e5e"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12">
+  <path
+    d="M8,11.162,11.708,13.4l-.984-4.218L14,6.344,9.686,5.978,8,2,6.314,5.978,2,6.344,5.276,9.182,4.292,13.4Z"
+    transform="translate(-2 -2)"
+    fill="currentcolor"
+  />
 </svg>
