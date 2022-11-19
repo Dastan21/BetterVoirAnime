@@ -1,0 +1,1629 @@
+html {
+  overflow: hidden !important;
+  background: white !important;
+
+  --color-primary: #7c85d8;
+  --color-hover-primary: #98a6db;
+  --color-theme-light: #fff;
+  --color-theme-dark: #191a1c;
+  --color-theme-nord: #242933;
+}
+
+html[data-theme="light"] {
+  --color-text: #111;
+  --color-text2: #444;
+  --color-text-contrast: #fff;
+  --color-background: #fff;
+  --color-background2: #ebebeb;
+  --color-hover: #d8d8d8;
+  --color-hover2: #cecece;
+  --color-border: #00000022;
+  --color-placeholder: #44444488;
+}
+
+html[data-theme="dark"] {
+  --color-text: #fff;
+  --color-text2: #999;
+  --color-text-contrast: #111;
+  --color-background: #191a1c;
+  --color-background2: #2c2c2c;
+  --color-hover: #393939;
+  --color-hover2: #424242;
+  --color-border: #ffffff22;
+  --color-placeholder: #99999988;
+}
+
+html[data-theme="nord"] {
+  --color-text: #eceff4;
+  --color-text2: #abb9cf;
+  --color-text-contrast: #191d25;
+  --color-background: #242933;
+  --color-background2: #2e3440;
+  --color-hover: #3b4252;
+  --color-hover2: #474e5f;
+  --color-border: #656e8566;
+  --color-placeholder: #abb9cf66;
+}
+
+* {
+  transition: background-color 400ms, border-color 400ms;
+}
+
+.ad,
+body:not([data-cloudflare]) > :not(#bva-root):not(.bva-captcha-puzzle),
+[data-hide] {
+  display: none !important;
+}
+
+body {
+  -webkit-font-smoothing: antialiased !important;
+  transition: opacity 200ms 400ms;
+  opacity: 0;
+  color: var(--color-text2) !important;
+  background-color: var(--color-background) !important;
+}
+
+body.transition {
+  opacity: 1;
+}
+
+input:hover,
+input:focus {
+  background: unset !important;
+  outline: none !important;
+}
+
+input {
+  color: var(--color-text) !important;
+  padding: 0 !important;
+  border: none !important;
+}
+
+input::placeholder {
+  color: var(--color-placeholder) !important;
+}
+
+bva-link:focus {
+  color: var(--color-primary);
+}
+
+button {
+  line-height: normal !important;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 1em;
+}
+
+::-webkit-scrollbar-track {
+  background-color: var(--color-hover);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--color-primary, grey);
+  border-radius: .5em;
+  border: .3em solid var(--color-hover);
+}
+
+#bva-root::-webkit-scrollbar {
+  width: 1.5em !important;
+}
+
+#bva-root::-webkit-scrollbar-thumb {
+  border-width: .45em !important;
+  border-radius: .75em !important;
+}
+
+
+/* Root */
+#bva-root {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background-color: var(--color-background);
+  transition: 400ms;
+}
+
+.bva-title {
+  font-size: 20px;
+  margin-bottom: .5em;
+  color: var(--color-text);
+  font-weight: bold;
+}
+
+.bva-subtitle {
+  color: var(--color-text2);
+  text-indent: 1em;
+  text-align: justify;
+}
+
+hr.bva-separator {
+  width: 95%;
+  height: 2px;
+  background-color: var(--color-primary);
+  margin: .2em auto;
+}
+
+.bva-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75em;
+  height: 1.75em;
+  aspect-ratio: 1 / 1;
+}
+
+.bva-icon > svg {
+  width: 1.25em;
+  height: 1.25em;
+}
+
+.bva-icon-90 {
+  transform: rotateZ(90deg);
+}
+
+.bva-icon-180 {
+  transform: rotateZ(180deg);
+}
+
+.bva-icon-270 {
+  transform: rotateZ(270deg);
+}
+
+.bva-loading {
+  width: 2em;
+  height: 2em;
+  margin: auto;
+  animation: loading 1.5s linear infinite;
+}
+
+.bva-loading > svg {
+  width: 2em;
+  height: 2em;
+}
+
+@keyframes loading {
+  0% { transform: rotateZ(0deg); }
+  100% { transform: rotateZ(360deg); }
+}
+
+bva-link {
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  text-align: start;
+  color: var(--color-text2);
+  background-color: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  transition: 200ms;
+}
+
+bva-link:hover,
+bva-link:focus {
+  color: var(--color-primary) !important;
+}
+
+
+/* Switch */
+.bva-switch {
+  position: relative;
+  display: inline-block;
+  width: 3em;
+  height: 1.5em;
+  margin: auto;
+}
+
+.bva-switch:focus {
+  outline: none;
+}
+
+.bva-switch-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: .1em;
+  right: 0;
+  bottom: 0;
+  background-color: var(--color-primary);
+  transition: 300ms;
+  border-radius: 2em;
+}
+
+.bva-switch-slider::before {
+  position: absolute;
+  content: "";
+  height: 1em;
+  width: 1em;
+  left: .25em;
+  bottom: .25em;
+  border-radius: 50%;
+  background-color: #fff;
+  transition: 300ms;
+}
+
+.bva-switch-slider:active,
+.bva-switch-slider:focus,
+.bva-switch:focus-within .bva-switch-slider {
+  background-color: var(--color-hover-primary);
+}
+
+.bva-switch > input:checked + .bva-switch-slider::before {
+  transform: translateX(1.3em);
+}
+
+.bva-switch > input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+
+/* Tabulation */
+.bva-tabs-container {
+  position: absolute;
+  width: 100%;
+  top: -2.5em;
+  left: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.bva-tab {
+  text-transform: uppercase;
+  padding: .5em 1em;
+  color: var(--color-text2);
+  border-top-left-radius: .25em;
+  border-top-right-radius: .25em;
+  border: 2px solid transparent;
+  border-bottom: none;
+  background-color: transparent;
+  cursor: pointer;
+  user-select: none;
+  transition: color 200ms, background-color 400ms;
+}
+
+.bva-tab:hover,
+.bva-tab:focus,
+.bva-tab[data-active]:hover,
+.bva-tab[data-active]:focus {
+  color: var(--color-text) !important;
+  outline: none;
+  transition: background-color 0ms;
+}
+
+.bva-tab[data-active] {
+  color: var(--color-primary) !important;
+  border-color: var(--color-primary);
+  background-color: var(--color-background);
+}
+
+/* Pagination */
+.bva-animes-pagination {
+  display: flex;
+  gap: 1em;
+  justify-content: center;
+  margin-top: 3em;
+}
+
+.bva-animes-page-container {
+  display: flex;
+  gap: .5em;
+}
+
+.bva-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 2em;
+  min-width: 2em;
+  padding: 0 .2em;
+  border-radius: .25em;
+  border: 1px solid var(--color-hover);
+  background-color: var(--color-background2);
+  color: var(--color-text) !important;
+  cursor: pointer;
+  transition: 200ms;
+}
+
+.bva-page:hover,
+.bva-page:focus-within {
+  color: var(--color-text) !important;
+  background-color: var(--color-hover);
+}
+
+.bva-page:not([data-active]):not(.bva-page-search):active {
+  background-color: var(--color-background2);
+}
+
+.bva-page[data-active] {
+  color: var(--color-text);
+  border-color: var(--color-primary);
+  background-color: var(--color-primary);
+}
+
+.bva-page[data-active]:hover,
+.bva-page[data-active]:focus-within {
+  color: var(--color-text);
+  border-color: var(--color-hover-primary);
+  background-color: var(--color-hover-primary);
+}
+
+.bva-page[data-active]:active {
+  border-color: var(--color-primary);
+  background-color: var(--color-primary);
+}
+
+.bva-page-dots {
+  cursor: auto;
+  user-select: none;
+  color: var(--color-text2) !important;
+}
+
+.bva-page-dots:hover {
+  color: var(--color-text2) !important;
+  background-color: var(--color-background2);
+}
+
+.bva-page-search {
+  display: flex;
+  height: auto;
+  width: auto;
+  max-width: 6em;
+  cursor: auto;
+  outline: none;
+  padding: 0 .25em 0 .5em;
+}
+
+.bva-page-search:hover,
+.bva-page-search:focus-within {
+  color: var(--color-primary);
+  background-color: var(--color-background2);
+}
+
+.bva-page-search > input::-webkit-outer-spin-button,
+.bva-page-search > input::-webkit-inner-spin-button {
+  margin: 0;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.bva-page-search > input {
+  appearance: none;
+  height: 2em;
+  -moz-appearance:textfield;
+}
+
+.bva-page-search > svg {
+  width: 1.5em;
+  height: 1.5em;
+  color: var(--color-text2);
+}
+
+
+/* Select */
+bva-select {
+  position: relative;
+  height: fit-content;
+  color: var(--color-text);
+  user-select: none;
+}
+
+bva-select label {
+  display: grid;
+  grid-template-columns: auto 1.3em;
+  min-width: 3em;
+  gap: .5em;
+  align-items: center;
+  padding: .2em .1em .2em .5em;
+  margin: 0;
+  border-radius: .25em;
+  border: 1px solid var(--color-hover);
+  background-color: var(--color-background2);
+  cursor: pointer;
+}
+
+bva-select label:hover,
+bva-select label:focus,
+bva-select label[data-active] {
+  outline: none;
+  background-color: var(--color-hover);
+}
+
+bva-select label:active {
+  background-color: var(--color-background2);
+}
+
+bva-select label[data-active] {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+bva-select label .bva-icon {
+  width: .45em;
+  margin: auto;
+}
+
+bva-select input,
+bva-select label:not([data-active]) > bva-select-options {
+  visibility: hidden;
+}
+
+bva-select-options {
+  z-index: 1;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 100%;
+  max-height: 20em;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  border-bottom-left-radius: .25em;
+  border-bottom-right-radius: .25em;
+  border: 1px solid var(--color-hover);
+  text-align: center;
+  background-color: var(--color-background2);
+}
+
+bva-select-item {
+  background-color: var(--color-background2);
+  padding: 0 .5em;
+  transition: 0ms;
+}
+
+bva-select-item[data-selected] {
+  background-color: var(--color-primary);
+}
+
+bva-select-item > span {
+  pointer-events: none;
+}
+
+
+/* Button */
+bva-button,
+.bva-button {
+  width: fit-content;
+  height: fit-content;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: .4em .6em;
+  margin: 0;
+  border-radius: .25em;
+  border: 1px solid var(--color-hover);
+  color: var(--color-text);
+  background-color: var(--color-background2);
+  cursor: pointer;
+  line-height: normal;
+  outline: none;
+  user-select: none;
+  transition: 200ms;
+}
+
+bva-button > span,
+.bva-button > span {
+  padding: 0 .5em;
+}
+
+bva-button:hover,
+bva-button:focus,
+.bva-button:hover,
+.bva-button:focus {
+  color: var(--color-text) !important;
+  background-color: var(--color-hover);
+}
+
+bva-button:active,
+.bva-button:active {
+  background-color: var(--color-background2);
+}
+
+bva-button svg,
+bva-button > .bva-icon,
+.bva-button svg,
+.bva-button > .bva-icon {
+  width: 1.25em;
+  height: 1.25em;
+}
+
+bva-button.bva-primary,
+.bva-button.bva-primary {
+  background-color: var(--color-primary);
+  border-color: var(--color-hover-primary);
+}
+
+bva-button.bva-primary:hover,
+bva-button.bva-primary:focus,
+.bva-button.bva-primary:hover,
+.bva-button.bva-primary:focus {
+  color: var(--color-text) !important;
+  background-color: var(--color-hover-primary);
+}
+
+bva-button.bva-primary:active,
+.bva-button.bva-primary:active {
+  background-color: var(--color-primary);
+}
+
+bva-button.bva-secondary,
+.bva-button.bva-secondary {
+  background-color: var(--color-hover);
+  border-color: var(--color-hover2);
+}
+
+bva-button.bva-secondary:hover,
+bva-button.bva-secondary:focus,
+.bva-button.bva-secondary:hover,
+.bva-button.bva-secondary:focus {
+  background-color: var(--color-hover2);
+}
+
+bva-button.bva-secondary:active,
+.bva-button.bva-secondary:active {
+  background-color: var(--color-hover);
+}
+
+bva-button-icon {
+  cursor: pointer;
+  color: var(--color-text2);
+  outline: none;
+  padding: .1em;
+  border-radius: .25em;
+  border: none;
+  background-color: var(--color-background2);
+  transition: 200ms;
+}
+
+bva-button-icon:hover,
+bva-button-icon:focus {
+  background-color: var(--color-hover);
+}
+
+bva-button-icon:active {
+  background-color: var(--color-background2);
+}
+
+
+/* Breadcrumb */
+.bva-breadcrumb {
+  font-size: 12px;
+  list-style: none;
+  padding: 0;
+  margin: 0 0 2em 0;
+}
+
+.bva-breadcrumb-item {
+  display: inline-block;
+}
+
+.bva-breadcrumb-item > .bva-link {
+  color: var(--color-text2);
+}
+
+.bva-breadcrumb-item > bva-link:focus {
+  color: var(--color-primary);
+}
+
+.bva-breadcrumb-item:not(:first-child)::before {
+  content: '/';
+  padding: 0 .25em;
+}
+
+
+/* Rating tooltip */
+.bva-rating {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: .4em;
+}
+
+.bva-rating-stars {
+  display: flex;
+  gap: .1em;
+  padding: .2em .3em;
+  border-radius: 1em;
+  color: #ff5e5e;
+  background-color: var(--color-background2);
+}
+
+.bva-rating-stars > svg {
+  width: .75em;
+  height: .75em;
+}
+
+.bva-rating:hover .bva-rating-tooltip {
+  visibility: visible;
+}
+
+.bva-rating-tooltip {
+  visibility: hidden;
+  background-color: #ff5e5e;
+  color: #fff;
+  text-align: center;
+  border-radius: .25em;
+  padding: .1em .5em;
+  position: absolute;
+  z-index: 1;
+  bottom: 150%;
+  width: max-content;
+  transform: translateX(-50%);
+  left: 50%;
+  user-select: none;
+}
+
+.bva-rating-tooltip::after {
+  content: " ";
+  position: absolute;
+  top: 95%;
+  left: 50%;
+  margin-left: -6px;
+  border-width: 6px;
+  border-style: solid;
+  border-color: transparent;
+  border-top-color: #ff5e5e;
+}
+
+
+/* Home page */
+.bva-animes-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  column-gap: 2em;
+  row-gap: 2em;
+}
+
+@media only screen and (max-width: 1760px) {
+  .bva-animes-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media only screen and (max-width: 1440px) {
+  .bva-animes-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media only screen and (max-width: 1080px) {
+  .bva-animes-container {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+.bva-item {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1em;
+  height: fit-content;
+  align-items: center;
+  padding: 1em;
+  border-radius: .5em;
+  border: 1px solid var(--color-hover);
+  background-color: var(--color-background2);
+  transition: 400ms;
+}
+
+.bva-item-vf {
+  position: absolute;
+  top: 0;
+  left: .5em;
+  display: flex;
+  user-select: none;
+}
+
+.bva-item-vf > svg {
+  width: 1.3em;
+}
+ 
+.bva-item-thumb {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  border-radius: .25em;
+  background-color: var(--color-hover);
+  overflow: hidden;
+  transition: 200ms;
+}
+
+.bva-item-thumb:focus-within {
+  outline: none;
+}
+
+.bva-item-thumbnail {
+  position: relative;
+  height: 150px;
+  width: 110px;
+  border-radius: .25em;
+  user-select: none;
+  transition: 200ms;
+}
+
+.bva-item-thumb:hover .bva-item-thumbnail,
+.bva-item-thumb:focus-within .bva-item-thumbnail {
+  filter: blur(.1em);
+  transform: scale(1.1);
+}
+
+.bva-item-infos {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.bva-item-title {
+  color: var(--color-text);
+  font-weight: bold;
+  font-size: 1.1em;
+  line-height: 1.31em;
+  max-height: 3.9em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.bva-item-episodes {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+.bva-item-episode {
+  display: flex;
+  gap: 1.5em;
+  align-items: center;
+  position: relative;
+  width: fit-content;
+}
+
+.bva-item-episode:hover > .bva-item-episode-hover,
+.bva-item-episode:focus > .bva-item-episode-hover {
+  width: 100%;
+}
+
+.bva-item-episode:hover > .bva-item-episode-date,
+.bva-item-episode:focus > .bva-item-episode-date {
+  color: #fff;
+}
+
+.bva-item-episode-hover {
+  position: absolute;
+  height: 100%;
+  width: 0;
+  align-self: flex-start;
+  background-color: var(--color-primary);
+  border-radius: .25em;
+  left: 1em;
+  z-index: 0;
+  transition: 400ms cubic-bezier(.165, .84, .44, 1);
+}
+
+.bva-item-episode-number {
+  padding: .1em .5em;
+  min-width: 2em;
+  text-align: center;
+  background-color: var(--color-primary);
+  border-radius: .25em;
+  color: #fff;
+  transition: 200ms;
+  z-index: 1;
+}
+
+.bva-item-episode-date {
+  font-size: 12px;
+  color: var(--color-text2);
+  transition: 200ms;
+  z-index: 1;
+}
+
+.bva-animes-empty {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 2em;
+}
+
+.bva-animes-empty-title {
+  color: var(--color-text);
+}
+
+
+/* Episode */
+.bva-episode-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  /* max-width: 960px; */
+}
+
+.bva-episode-video {
+  position: relative;
+  margin: auto;
+  width: 100%;
+  border-radius: .5em;
+  border: 1px solid var(--color-hover);
+  background-color: var(--color-text-contrast);
+}
+
+#chapter-video-captcha-validator {
+  width: 100% !important;
+  height: 100% !important;
+  background-color: var(--color-text-contrast) !important;
+  aspect-ratio: 16 / 9;
+}
+
+.bva-episode-video p {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.bva-episode-video .btn {
+  display: none;
+}
+
+.bva-episode-video-full {
+  padding: 0 !important;
+  margin: auto !important;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 16 / 9;
+  max-width: 50vw;
+}
+
+.bva-episode-navigation {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.bva-quick-navigation {
+  display: grid;
+  grid-template-columns: 10em 1fr 10em;
+  gap: 1em;
+  width: 100%;
+  margin: 1em auto;
+}
+
+.bva-quick-navigation > *:nth-child(2) {
+  flex: 6;
+}
+
+.bva-quick-navigation > *:first-child {
+  flex: 1;
+  margin: auto auto auto 0;
+}
+
+.bva-quick-navigation > *:last-child {
+  flex: 1;
+  margin: auto 0 auto auto;
+}
+
+.bva-quick-navigation > .bva-title {
+  text-align: center;
+  margin: 0;
+  align-self: center;
+}
+
+
+/* Header */
+.bva-header-container {
+  position: sticky;
+  position: sticky;
+  left: 0;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: auto;
+  display: flex;
+  padding: 1em;
+  margin-bottom: 1em;
+  align-items: center;
+  gap: 1em;
+  z-index: 10;
+  border-bottom: 2px solid var(--color-primary);
+  background-color: var(--color-background);
+}
+
+.bva-header-logo {
+  position: absolute;
+  top: 1.5em;
+  left: 1.5em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: .25em;
+  padding: 1.1em .5em;
+  border: 2px solid var(--color-primary);
+  background-color: var(--color-background);
+  color: var(--color-text) !important;
+  cursor: pointer;
+  transition: 200ms;
+}
+
+.bva-header-logo:hover,
+.bva-header-logo:focus {
+  color: var(--color-text) !important;
+}
+
+.bva-header-logo:focus {
+  border-color: var(--color-text);
+}
+
+@media only screen and (max-width: 640px) {
+  .bva-header-logo {
+    opacity: 0;
+  }
+}
+
+.bva-header-logo > svg {
+  width: 4em;
+  height: auto;
+}
+
+.bva-header-subcontainer {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  gap: 3em;
+  margin: auto;
+}
+
+.bva-header-item {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: .5em;
+  font-size: 16px;
+  text-transform: uppercase;
+  color: var(--color-text);
+  transition: 200ms;
+}
+
+.bva-header-item:focus {
+  color: var(--color-primary) !important;
+}
+
+.bva-header-item[data-active]::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -.25em;
+  width: 100%;
+  height: 4px;
+  background-color: var(--color-primary);
+}
+
+.bva-header-item svg {
+  width: 1.5em;
+  height: 1.5em;
+}
+
+.bva-header-menu {
+  color: var(--color-text);
+}
+
+.bva-header-menu-toggle {
+  cursor: pointer;
+  outline: none;
+  padding: .3em;
+  border-radius: .25em;
+  transition: 200ms;
+}
+
+.bva-header-menu-toggle:hover,
+.bva-header-menu-toggle:focus {
+  color: var(--color-primary);
+}
+
+.bva-header-menu-toggle > svg {
+  width: 2em;
+  height: 2em;
+}
+
+.bva-header-menu-toggle:not([data-active]) + .bva-header-menu-container {
+  visibility: hidden;
+}
+
+.bva-header-menu-container {
+  z-index: 10;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  min-width: 10em;
+  max-width: 20em;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  margin: 1em;
+  border-radius: .25em;
+  border: 1px solid var(--color-hover);
+  background-color: var(--color-background2);
+  user-select: none;
+}
+
+.bva-header-menu:not([data-tab]) .bva-header-menu-tab {
+  display: none;
+}
+
+.bva-header-menu-tab-name {
+  padding-top: .5em;
+  padding-bottom: .5em;
+}
+
+.bva-header-menu-tab-back {
+  cursor: pointer;
+  border-radius: .25em;
+  outline: none;
+}
+
+.bva-header-menu-tab-back:hover,
+.bva-header-menu-tab-back:focus {
+  background-color: var(--color-hover);
+}
+
+.bva-header-menu-items {
+  display: flex;
+  flex-direction: column;
+}
+
+.bva-header-menu-item, .bva-header-menu-tab {
+  display: flex;
+  align-items: center;
+}
+
+.bva-header-menu-item {
+  cursor: pointer;
+  outline: none;
+}
+
+.bva-header-menu-item[data-disabled] {
+  color: var(--color-text2);
+  cursor: not-allowed;
+}
+
+.bva-header-menu-item[data-disabled]:hover,
+.bva-header-menu-item[data-disabled]:focus {
+  background-color: var(--color-background2);
+}
+
+.bva-header-menu-item > *,
+.bva-header-menu-tab > * {
+  margin: auto .5em;
+}
+
+.bva-header-menu-item:first-child {
+  border-top-left-radius: .25em;
+  border-top-right-radius: .25em;
+}
+
+.bva-header-menu-item:last-child {
+  border-bottom-left-radius: .25em;
+  border-bottom-right-radius: .25em;
+}
+
+.bva-header-menu-item:hover,
+.bva-header-menu-item:focus {
+  background-color: var(--color-hover);
+}
+
+.bva-header-menu-item-text {
+  width: 100%;
+  padding-top: .5em;
+  padding-bottom: .5em;
+}
+
+.bva-header-menu-container [data-color-theme] svg {
+  background-color: var(--color-text);
+  padding: 1px;
+  border-radius: 50%;
+}
+
+.bva-header-menu-container [data-color-theme="light"] svg {
+  color: var(--color-theme-light);
+}
+
+.bva-header-menu-container [data-color-theme="dark"] svg {
+  color: var(--color-theme-dark);
+}
+
+.bva-header-menu-container [data-color-theme="nord"] svg {
+  color: var(--color-theme-nord);
+}
+
+
+/* Footer */
+.bva-footer-container {
+  position: fixed;
+  bottom: 1.5em;
+  left: 1.5em;
+}
+
+.bva-actions-toggle {
+  display: flex;
+  position: relative;
+  padding: .25em;
+  background-color: var(--color-background2);
+  border-radius: .7em;
+}
+
+.bva-actions-toggle svg {
+  width: 22px;
+  height: 22px;
+}
+
+.bva-actions-toggle[data-toggle] {
+  gap: .75em;
+}
+
+.bva-actions-toggle[data-toggle] .bva-actions-container {
+  overflow: visible;
+  width: 100%;
+}
+
+.bva-actions-container {
+  display: flex;
+  gap: .25em;
+  overflow: hidden;
+  width: 0;
+}
+
+/* .bva-actions-separator {
+  width: 2px;
+  height: 70%;
+  margin: auto .75em auto .25em;
+  background-color: var(--color-text2);
+} */
+
+.bva-action-btn {
+  display: flex;
+  position: relative;
+  padding: .5em;
+  cursor: pointer;
+  background-color: var(--color-background2);
+}
+
+.bva-action-btn svg {
+  color: var(--color-text2);
+}
+
+.bva-action-btn:hover svg {
+  color: var(--color-primary);
+}
+
+.bva-action-btn:hover .bva-action-tooltip {
+  visibility: visible;
+}
+
+.bva-action-tooltip {
+  visibility: hidden;
+  background-color: var(--color-primary);
+  color: #fff;
+  text-align: center;
+  border-radius: .25em;
+  padding: .3em .5em;
+  position: absolute;
+  z-index: 1;
+  bottom: 130%;
+  width: max-content;
+  transform: translateX(-50%);
+  left: 50%;
+  user-select: none;
+  cursor: auto;
+}
+
+.bva-action-tooltip::after {
+  content: " ";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -8px;
+  border-width: 8px;
+  border-style: solid;
+  border-color: transparent;
+  border-top-color: var(--color-primary);
+}
+
+
+/* Main */
+.bva-main-container {
+  display: flex;
+  flex-direction: column;
+  gap: 4em;
+  margin: 4em 2em;
+}
+
+.bva-content-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 80%;
+  margin: auto;
+}
+
+.bva-content-container {
+  margin: auto;
+  padding: 2em;
+  width: 100%;
+  border-radius: .5em;
+  border: 2px solid var(--color-primary);
+}
+
+.bva-animes-search-container {
+  display: flex;
+  flex-wrap: wrap;
+  width: fit-content;
+  margin: auto;
+  justify-content: center;
+  align-items: center;
+  gap: 2em;
+}
+
+.bva-animes-search-input-container {
+  z-index: 5;
+  position: relative;
+  display: flex;
+  min-width: 25em;
+  align-items: center;
+  margin: auto;
+  border-radius: .25em;
+  border: 1px solid var(--color-hover);
+  padding: .25em .25em .25em .75em;
+  background-color: var(--color-background2);
+}
+
+.bva-animes-search-input-container input {
+  z-index: 2;
+  height: 2em;
+}
+
+.bva-animes-search-input-container .bva-autocomplete {
+  z-index: 1;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  color: var(--color-placeholder) !important;
+  pointer-events: none;
+}
+
+.bva-animes-search-inputs {
+  position: relative;
+  width: 100%;
+}
+
+.bva-animes-search-language {
+  display: flex;
+  gap: .5em;
+  align-items: center;
+  color: var(--color-text);
+}
+
+.bva-animes-search-results {
+  position: absolute;
+  left: 0;
+  top: 100%;
+  width: 100%;
+  max-height: 40em;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  margin-top: 1em;
+  padding: 1em;
+  border-radius: .25em;
+  border: 1px solid var(--color-hover);
+  background-color: var(--color-background2);
+}
+
+.bva-animes-search-results:not([data-search]) {
+  display: none;
+}
+
+.bva-animes-search-results-total {
+  font-size: .85em;
+}
+
+.bva-animes-search-results .bva-item-thumb {
+  background-color: var(--color-hover2);
+}
+
+.bva-animes-search-results .bva-item-thumb:hover .bva-item-thumbnail {
+  filter: none;
+  transform: none;
+}
+
+.bva-animes-search-results .bva-item-thumbnail {
+  width: 66px;
+  height: 90px;
+}
+
+.bva-animes-search-results .bva-item {
+  padding: .5em;
+  border: 2px solid transparent;
+  background-color: var(--color-hover);
+  transition: 200ms;
+}
+
+.bva-animes-search-results .bva-item-vf {
+  font-size: .75em;
+}
+
+.bva-animes-search-results .bva-item:hover,
+.bva-animes-search-results .bva-item:focus {
+  border-color: var(--color-primary);
+}
+
+.bva-animes-search-results .bva-title {
+  font-size: 1em;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.bva-animes-search-results .bva-subtitle {
+  font-size: .9em;
+  text-indent: 0;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+
+/* Genres */
+.bva-genre-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2em;
+}
+
+.bva-genre-subcontainer {
+  display: flex;
+  width: 50%;
+  gap: .5em;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+@media only screen and (max-width: 1280px) {
+  .bva-genre-subcontainer {
+    width: 70%;
+  }
+}
+
+@media only screen and (max-width: 960px) {
+  .bva-genre-subcontainer {
+    width: 95%;
+  }
+}
+
+.bva-genre {
+  font-size: 12px;
+  text-transform: uppercase;
+  padding: .25em 1.1em;
+  border-radius: 1em;
+  text-decoration: none;
+  border-color: var(--color-primary) !important;
+  background-color: var(--color-primary);
+  color: #fff;
+  margin: 0;
+  transition: 200ms;
+}
+
+.bva-genre:hover,
+.bva-genre:focus {
+  color: #fff !important;
+  background-color: var(--color-hover-primary);
+  border-color: var(--color-hover-primary) !important;
+}
+
+.bva-genre:active {
+  color: #fff !important;
+  background-color: var(--color-primary);
+  border-color: var(--color-primary) !important;
+}
+
+
+/* Anime page */
+.bva-anime-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 60em;
+  max-width: 100%;
+  margin: auto;
+  gap: 2em;
+}
+
+.bva-anime-infos-container {
+  grid-template-columns: 40% 1fr;
+  gap: 2em;
+}
+
+@media only screen and (max-width: 960px) {
+  .bva-anime-infos-container {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .bva-anime-infos-container > * {
+    margin: auto;
+  }
+}
+
+.bva-anime-infos-container .bva-anime-thumb {
+  width: fit-content;
+  margin: auto;
+}
+
+.bva-anime-infos-container .bva-anime-thumb:hover .bva-anime-thumbnail {
+  filter: none !important;
+  transform: none !important;
+}
+
+.bva-anime-infos {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+.bva-anime-infos bva-button {
+  margin: 0;
+}
+
+.bva-anime-title {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+}
+
+#trailer {
+  background-color: #000000aa;
+}
+
+#trailer .modal-content {
+  border: 2px solid var(--color-primary);
+}
+
+.bva-anime-thumb {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  height: fit-content;
+  width: fit-content;
+  margin: auto;
+  border-radius: .25em;
+  overflow: hidden;
+  font-size: 20px;
+  transition: 200ms;
+}
+
+.bva-anime-thumb .bva-rating-tooltip {
+  font-size: .8em;
+}
+
+.bva-anime-thumbnail {
+  position: relative;
+  width: 220px;
+  height: 300px;
+  user-select: none;
+  transition: 200ms;
+}
+
+.bva-anime-thumb:hover .bva-anime-thumbnail,
+.bva-anime-thumb:focus-within .bva-anime-thumbnail {
+  filter: blur(.1em);
+  transform: scale(1.1);
+}
+
+.bva-anime-info {
+  position: relative;
+  display: flex;
+}
+
+.bva-anime-info-label {
+  width: 10em;
+  color: var(--color-text);
+}
+
+.bva-anime-info-value > .bva-link {
+  color: var(--color-text2) !important;
+}
+
+.bva-anime-info-value > bva-link:hover,
+.bva-anime-info-value > bva-link:focus {
+  color: var(--color-primary) !important;
+}
+
+.bva-anime-firstlast {
+  display: flex;
+  gap: 1em;
+}
+
+.bva-anime-episode-list {
+  display: flex;
+  flex-direction: column;
+  gap: .5em;
+}
+
+.bva-anime-episodes-sort {
+  margin-left: auto;
+}
+
+.bva-anime-episodes {
+  display: flex;
+  width: 100%;
+  padding: 0;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.bva-anime-episode {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2em;
+  padding: .75em 1em;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.bva-anime-episode:first-child {
+  border-top-left-radius: .25em;
+  border-top-right-radius: .25em;
+}
+
+.bva-anime-episode:hover,
+.bva-anime-episode:focus-within {
+  background-color: var(--color-hover);
+}
+
+.bva-anime-episode-link {
+  color: var(--color-text) !important;
+}
+
+.bva-anime-episode-link:hover,
+.bva-anime-episode-link:focus {
+  color: var(--color-primary) !important;
+}
+
+.bva-anime-episode-date {
+  white-space: nowrap;
+}
+
+.bva-anime-episode:last-child,
+.bva-anime-episodes:not([data-show-all]) .bva-anime-episode:nth-child(19) {
+  border-color: transparent !important;
+  border-bottom-left-radius: .25em;
+  border-bottom-right-radius: .25em;
+}
+
+.bva-anime-episodes:not([data-show-all]) .bva-anime-episode:nth-child(n+20) {
+  display: none;
+}
+
+.bva-anime-episodes-show-all {
+  margin: auto;
+}

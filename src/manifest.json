@@ -1,0 +1,47 @@
+{
+  "name": "Better VoirAnime",
+  "version": "0.0.3",
+  "manifest_version": 3,
+  "description": "A powerful UI/UX changer for 'voiranime.com'",
+  "icons": {
+    "16": "public/favicons/icon16.png",
+    "48": "public/favicons/icon48.png",
+    "128": "public/favicons/icon128.png"
+  },
+  "content_scripts": [{
+    "js": [
+      "script.js"
+    ],
+    "css": [
+      "style.css"
+    ],
+    "matches": [
+      "*://voiranime.com/*"
+    ],
+    "exclude_matches": [
+      "*://voiranime.com/wp-content/*",
+      "*://voiranime.com/wp-admin/*",
+      "*://voiranime.com/wp-login*",
+      "*://voiranime.com/feed/*",
+      "*://voiranime.com/user-settings*"
+    ]
+  }],
+  "web_accessible_resources": [{
+    "resources": [
+      "public/**/*.*"
+    ],
+    "matches": [
+      "*://voiranime.com/*"
+    ],
+    "exclude_matches": [
+      "*://voiranime.com/wp-content/*",
+      "*://voiranime.com/wp-admin/*",
+      "*://voiranime.com/wp-login*",
+      "*://voiranime.com/feed/*",
+      "*://voiranime.com/user-settings*"
+    ]
+  }],
+  "permissions": [
+    "storage"
+  ]
+}

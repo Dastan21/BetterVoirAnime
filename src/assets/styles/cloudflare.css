@@ -1,0 +1,72 @@
+body[data-cloudflare] > :not(#loader) {
+  z-index: -1000;
+}
+
+#loader {
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 2em;
+  background-color: var(--color-background);
+}
+
+.loading {
+  width: 100px;
+  height: 100px;
+  position: relative;
+}
+
+.load-text {
+  position: relative;
+  top: auto;
+  left: auto;
+  font-size: 1.5em;
+  color: var(--color-text2);
+}
+
+@keyframes loader {
+  0% { top: -100% }
+  100% { top: 100%; }
+}
+
+.loading > .box {
+  width: 50px;
+  height: 50px;
+  background: #7289DA;
+  animation: animate .5s linear infinite;
+  position: absolute;
+  top: 25px;
+  left: 25px;
+  border-radius: 3px;
+}
+
+@keyframes animate {
+  17% { border-bottom-right-radius: 3px; }
+  25% { transform: translateY(9px) rotate(22.5deg); }
+  50% { transform: translateY(18px) scale(1,.9) rotate(45deg); border-bottom-right-radius: 40px; }
+  75% { transform: translateY(9px) rotate(67.5deg); }
+  100% { transform: translateY(0) rotate(90deg); }
+} 
+
+.loading > .shadow { 
+  position: absolute;
+  background: #000;
+  top: 87px;
+  left: 25px;
+  width: 50px;
+  height: 6px;
+  opacity: 0.2;
+  border-radius: 50%;
+  animation: shadow .5s linear infinite;
+}
+
+@keyframes shadow {
+  50% { transform: scale(1.2, 1); }
+}
