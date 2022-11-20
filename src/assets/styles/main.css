@@ -360,6 +360,10 @@ bva-link:focus {
   background-color: var(--color-primary);
 }
 
+.bva-page .bva-icon {
+  color: var(--color-text2) !important;
+}
+
 .bva-page-dots {
   cursor: auto;
   user-select: none;

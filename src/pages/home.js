@@ -1,7 +1,7 @@
 import { attachDOM, createDOM, getPagination, onTrigger, querySelectorList, toLocaleDate, isEmpty, onClickOutside, innerDOM, collectionToArray } from '../common/utils'
 import { createEmptyDataMessage, createRating, createSwitch, createTabulation } from '../common/components'
 import { parseAnimeList } from '../common/parser'
-import { changePage, fetchAnimes, getAutocomplete, setupLinks } from '../common/api'
+import { changePage, fetchAnimes, setupLinks } from '../common/api'
 
 import vfMarkIcon from '../assets/icons/vf-mark.svg'
 import searchIcon from '../assets/icons/search.svg'
@@ -36,12 +36,12 @@ export function buildHomePage () {
   }
 
   const createAnimeSearch = () => {
-    const AUTOCOMPLETE_DELAY = 200
+    const SEARCH_DELAY = 500
 
     const $animeSearch = createDOM(`
       <label class="bva-animes-search-input-container" data-language="VOSTFR">
         <div class="bva-animes-search-inputs"></div>
-        <bva-button-icon class="bva-icon" title="Chercher">${searchIcon}</bva-button-icon>
+        <bva-icon class="bva-icon" title="Chercher">${searchIcon}</bva-button-icon>
         <div class="bva-animes-search-results"></div>
       </label>
     `)
@@ -89,35 +89,19 @@ export function buildHomePage () {
       }).catch(console.error)
     }
 
-    const $input = createDOM('<input class="bva-animes-search-input" type="text" placeholder="Rechercher des animés en VOSTFR...">')
-    const $autocomplete = createDOM('<input type="text" class="bva-autocomplete" disabled>')
-    const $searchButton = $animeSearch.querySelector('bva-button-icon')
-    onTrigger($searchButton, () => {
-      searchAnimes()
-    })
+    const $input = createDOM('<input class="bva-animes-search-input" type="text" placeholder="Rechercher des animés en VOSTFR">')
     let to
     $input.oninput = () => {
       clearTimeout(to)
-      $autocomplete.value = ''
       if (isEmpty($input.value)) return
-
-      to = setTimeout(() => {
-        getAutocomplete($input.value, $animeSearch.getAttribute('data-language')).then((word) => {
-          $autocomplete.value = word ?? ''
-        }).catch(console.error)
-      }, AUTOCOMPLETE_DELAY)
+      to = setTimeout(searchAnimes, SEARCH_DELAY)
     }
     $input.onkeydown = (e) => {
-      if (e.code === 'Tab' && isEmpty($autocomplete.value) && $autocomplete.value !== $input.value) {
-        e.preventDefault()
-        $input.value = $autocomplete.value
-      }
       if (!['Enter', 'NumpadEnter'].includes(e.code)) return
 
       searchAnimes()
     }
     attachDOM($input, $animeSearch, '.bva-animes-search-inputs')
-    attachDOM($autocomplete, $animeSearch, '.bva-animes-search-inputs')
 
     return $animeSearch
   }
@@ -131,7 +115,7 @@ export function buildHomePage () {
       const $input = $animeSearch.querySelector('.bva-animes-search-input')
       const language = checked ? 'VF' : 'VOSTFR'
       $animeSearch.setAttribute('data-language', language)
-      $input.setAttribute('placeholder', `Rechercher des animés en ${language}...`)
+      $input.setAttribute('placeholder', `Rechercher des animés en ${language}`)
     }
 
     const $switch = createSwitch(onLanguageChange)
@@ -198,8 +182,8 @@ export function buildHomePage () {
         <div class="bva-animes-page-container"></div>
         <div class="bva-animes-page-search" title="Aller à une page précise">
           <div class="bva-page-search bva-page">
-            <input type="number" placeholder="Page..." min="1" max="${lastPage}">
-            <bva-button-icon class="bva-icon">${searchIcon}</bva-button-icon>
+            <input type="number" placeholder="Page" min="1" max="${lastPage}">
+            <bva-icon class="bva-icon">${searchIcon}</bva-button-icon>
           </div>
         </div>
       </div>
@@ -234,10 +218,6 @@ export function buildHomePage () {
     }
     const $pageSearch = $pagination.querySelector('.bva-page-search')
     $pageSearch.onclick = () => $searchPageInput.focus()
-    const $pageSearchButton = $pageSearch.querySelector('bva-button-icon')
-    onTrigger($pageSearchButton, () => {
-      searchAnimePage()
-    })
 
     attachDOM(createPageNumbers(currentPage, lastPage), $pagination, '.bva-animes-page-container')
 
