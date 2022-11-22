@@ -134,7 +134,7 @@ export function buildHeader () {
   const createHeaderList = () => {
     return createDOM(headerItems.filter(i => !i.disabled).map((item) => {
       const $item = createDOM(`
-        <bva-link class="bva-header-item" href="${item.path}" title="${item.title}" data-section="${item.id}">
+        <bva-link class="bva-header-item" href="${item.path}" title="${item.title}">
           <span>${item.text}</span>
         </bva-link>
       `)
@@ -227,7 +227,7 @@ export function buildHeader () {
   }
 
   const $headerItems = createDOM(`
-    <bva-link class="bva-header-logo" href="${BASE_URL}" title="Voiranime" data-section="home">${vaLogo}</bva-link>
+    <bva-link class="bva-header-logo" href="${BASE_URL}" title="Voiranime">${vaLogo}</bva-link>
     <div class="bva-header-subcontainer"></div>
   `)
   attachDOM(createHeaderList(), $headerItems, '.bva-header-subcontainer')

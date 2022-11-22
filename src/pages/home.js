@@ -50,7 +50,7 @@ export function buildHomePage () {
       if (!Array.isArray(data.results) || data.results.length < 1) return '<div>Aucun résultat :(</div>'
       const results = `<span class="bva-animes-search-results-total">Résultats : <strong>${data.full_results_count}</strong></span>`
       const animes = data.results.map((res) => `
-        <bva-link class="bva-item" href="${res.link}" data-section="anime">
+        <bva-link class="bva-item" href="${res.link.replace('http://', 'https://')}">
           <div class="bva-item-thumb">
             <img class="bva-item-thumbnail" src="${res.image}" title="${res.title}">
             ${vf ? `<div class="bva-item-vf" title="VF">${vfMarkIcon}</div>` : ''}
@@ -86,6 +86,7 @@ export function buildHomePage () {
       fetchAnimes($input.value, dataLanguage).then((animes) => {
         $results.innerHTML = ''
         attachDOM(createSearchResults(animes, dataLanguage === 'VF'), $results)
+        setupLinks()
       }).catch(console.error)
     }
 
@@ -137,7 +138,7 @@ export function buildHomePage () {
 
   const createGenreList = () => {
     return createDOM(Array.from(window.body.querySelectorAll('.sub-nav_list .menu-item-type-taxonomy')).map((el) => `
-      <bva-link class="bva-genre" href="${el.firstElementChild.getAttribute('href')}" title="${el.textContent}" data-section="genre-list">
+      <bva-link class="bva-genre" href="${el.firstElementChild.getAttribute('href')}" title="${el.textContent}">
         ${el.textContent}
       </bva-link>
     `).join('\n'))
@@ -227,7 +228,7 @@ export function buildHomePage () {
   const createEpisodeList = (episodes) => {
     if (episodes.length <= 0) return null
     return episodes.map((ep) => `
-      <bva-link class="bva-item-episode" href="${ep.url}" data-section="episode">
+      <bva-link class="bva-item-episode" href="${ep.url}">
         <div class="bva-item-episode-hover"></div>
         <div class="bva-item-episode-number" title="${!ep.number.startsWith('(') ? 'Épisode ' : ''}${ep.number}">${isNaN(ep.number) ? '#' : ep.number}</div>
         <span class="bva-item-episode-date" title="${toLocaleDate(ep.date.absolute)}">${ep.date.relative}</span>
@@ -240,11 +241,11 @@ export function buildHomePage () {
       const $item = createDOM(`
         <div class="bva-item">
           <div class="bva-item-thumb">
-            <bva-link href="${item.url}" data-section="anime"><img class="bva-item-thumbnail" src="${item.image}" title="${item.title}"></bva-link>
+            <bva-link href="${item.url}"><img class="bva-item-thumbnail" src="${item.image}" title="${item.title}"></bva-link>
             ${item.vf === true ? `<div class="bva-item-vf" title="VF">${vfMarkIcon}</div>` : ''}
           </div>
           <div class="bva-item-infos">
-            <bva-link href="${item.url}" class="bva-item-title" title="${item.title}" data-section="anime">${item.title}</bva-link>
+            <bva-link href="${item.url}" class="bva-item-title" title="${item.title}">${item.title}</bva-link>
             <div class="bva-item-episodes"></div>
           </div>
         </div>

@@ -39,7 +39,7 @@ export function buildAnimesPage () {
       else if (key === 'title_vf') ret.label = 'Titre français'
       else if (key === 'status') ret.label = 'Statut'
       else if (key === 'genres') {
-        ret.content = value.map((genre) => `<bva-link href="${genre.url}" title="${genre.name}" data-section="genre-list">${genre.name}</bva-link>`).join(', \n')
+        ret.content = value.map((genre) => `<bva-link href="${genre.url}" title="${genre.name}">${genre.name}</bva-link>`).join(', \n')
         ret.title = ''
       } else if (key === 'start_date') {
         ret.content = toLocaleDate(value)
@@ -75,8 +75,8 @@ export function buildAnimesPage () {
     if (anime.episodes.length > 0) {
       const $firstLastEp = createDOM(`
         <div class="bva-anime-firstlast">
-          <bva-link class="bva-button bva-secondary" href="${anime.episodes[anime.episodes.length - 1].url}" title="Premier épisode" data-section="episode">Premier épisode</bva-link>
-          <bva-link class="bva-button bva-secondary" href="${anime.episodes[0].url}" title="Dernier épisode" data-section="episode">Dernier épisode</bva-link>
+          <bva-link class="bva-button bva-secondary" href="${anime.episodes[anime.episodes.length - 1].url}" title="Premier épisode">Premier épisode</bva-link>
+          <bva-link class="bva-button bva-secondary" href="${anime.episodes[0].url}" title="Dernier épisode">Dernier épisode</bva-link>
         </div>
       `)
       attachDOM($firstLastEp, $animeInfos)
@@ -104,7 +104,7 @@ export function buildAnimesPage () {
 
     const $episodes = createDOM(anime.episodes.map((ep) => `
       <div class="bva-anime-episode">
-        <bva-link class="bva-anime-episode-link" href="${ep.url}" title="${!ep.title.startsWith('(') ? 'Épisode ' : ''}${ep.title}" data-section="episode">${ep.title}</bva-link>
+        <bva-link class="bva-anime-episode-link" href="${ep.url}" title="${!ep.title.startsWith('(') ? 'Épisode ' : ''}${ep.title}">${ep.title}</bva-link>
         <span class="bva-anime-episode-date" title="${toLocaleDate(ep.date.absolute)}">${ep.date.relative}</span>
       </div>
     `).join('\n'))

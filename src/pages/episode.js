@@ -77,7 +77,7 @@ export function buildEpisodePage () {
       const $a = document.querySelector(`#manga-reading-nav-head .nav-links a.${type}_page`)
       if ($a == null) return null
       return createDOM(`
-        <bva-link class="bva-button" href="${$a.getAttribute('href')}" title="Épisode ${$a.getAttribute('title')}" data-section="episode">
+        <bva-link class="bva-button" href="${$a.getAttribute('href')}" title="Épisode ${$a.getAttribute('title')}">
           ${type === 'prev' ? `<div class="bva-icon">${arrowIcon}</div>` : ''}
           <span>${capitalize(translateQuickNavigation(type))}</span>
           ${type === 'next' ? `<div class="bva-icon bva-icon-180">${arrowIcon}</div>` : ''}
