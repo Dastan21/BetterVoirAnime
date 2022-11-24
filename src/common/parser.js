@@ -35,10 +35,6 @@ export function parseAnimeList (root = window.body) {
   })
 }
 
-export function parseGenreList () {
-  return []
-}
-
 /**
  * Convert object to FormData.
  * @param {any} data

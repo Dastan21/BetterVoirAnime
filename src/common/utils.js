@@ -6,7 +6,7 @@ export const NEED_REFRESH = ['episode']
 
 export const defaultTheme = window.matchMedia?.('(prefers-color-scheme: dark)').matches === true ? 'dark' : 'light'
 
-export function getCurrentSection (title = document.title) {
+export function getCurrentSection (title = window.title) {
   const bvaRoot = document.getElementById('bva-root')
   let section = bvaRoot.getAttribute('bva-section')
   if (section != null && title == null) return section
@@ -14,7 +14,7 @@ export function getCurrentSection (title = document.title) {
   if (title.startsWith('just a moment')) section = 'cloudflare'
   else if (title.startsWith('liste d\'animes')) section = 'anime-list'
   else if (title.startsWith('you searched for')) section = 'search'
-  else if (title.endsWith('archives - voiranime')) section = 'genre-list'
+  else if (title.endsWith('archives - voiranime') || title.includes('archives - page ')) section = 'genre-list'
   else if (title.startsWith('regarder gratuitement')) section = 'anime'
   else if (title.includes('#1 de l\'anime en france')) {
     const sectionName = window.body.querySelector('.c-blog__heading > .h4').textContent.replace(/\s/gi, '').toLowerCase()

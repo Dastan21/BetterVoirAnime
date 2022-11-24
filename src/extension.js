@@ -7,7 +7,6 @@ import * as storage from './common/storage'
 import { buildHeader } from './common/header'
 import { buildCloudflarePage } from './pages/cloudflare'
 import { buildAnimeListPage } from './pages/anime-list'
-import { buildGenreListPage } from './pages/genre-list'
 import { buildSearchPage } from './pages/search'
 import { buildAnimesPage } from './pages/anime'
 import { buildEpisodePage } from './pages/episode'
@@ -22,6 +21,7 @@ storage.get('bva-theme').then((theme = defaultTheme) => $html.setAttribute('data
 document.body.classList.add('transition')
 
 window.body = document.body
+window.title = document.title
 window.cache.set(location.href, { body: window.body, title: document.title })
 attachDOM(`
   <div id="bva-root">
@@ -34,7 +34,6 @@ attachDOM(`
 function buildPage (section) {
   switch (section) {
     case 'anime-list': buildAnimeListPage(); break
-    case 'genre-list': buildGenreListPage(); break
     case 'search': buildSearchPage(); break
     case 'anime': buildAnimesPage(); break
     case 'episode': buildEpisodePage(); break

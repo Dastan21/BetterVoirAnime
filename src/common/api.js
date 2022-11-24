@@ -124,8 +124,9 @@ export async function getAutocomplete (search, language) {
  */
 export function changePage (url) {
   history.pushState({}, null, url)
-  request(url).then((html) => {
+  request(location.href).then((html) => {
     window.body = html.body
+    window.title = html.title
     const section = getCurrentSection(html.title)
     if (NEED_REFRESH.includes(section)) { location.href = url; return }
     dispatchEvent(new Event('bva-refresh'))

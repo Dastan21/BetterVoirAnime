@@ -1,15 +1,20 @@
-import { attachDOM, createDOM, getPagination, onTrigger, querySelectorList, toLocaleDate, isEmpty, onClickOutside, innerDOM, collectionToArray } from '../common/utils'
+import { attachDOM, createDOM, getPagination, onTrigger, querySelectorList, toLocaleDate, isEmpty, onClickOutside, innerDOM, collectionToArray, getCurrentSection, buildTitle, capitalize, translateGenre } from '../common/utils'
 import { createEmptyDataMessage, createRating, createSwitch, createTabulation } from '../common/components'
 import { parseAnimeList } from '../common/parser'
 import { changePage, fetchAnimes, setupLinks } from '../common/api'
 
-import vfMarkIcon from '../assets/icons/vf-mark.svg'
+import vfMarkIcon from '../assets/icons/vf_mark.svg'
 import searchIcon from '../assets/icons/search.svg'
 import loadingIcon from '../assets/icons/loading.svg'
 
 export function buildHomePage () {
   document.title = '#1 de l\'anime en france - VoirAnime'
   const $main = document.getElementById('bva-main')
+  const section = getCurrentSection()
+  if (section === 'genre-list') {
+    const genre = window.body.querySelector('.entry-header .item-title').textContent.trim().toLowerCase()
+    document.title = buildTitle(capitalize(translateGenre(genre)))
+  }
 
   // Extract data
   const animes = parseAnimeList()
@@ -139,13 +144,13 @@ export function buildHomePage () {
   const createGenreList = () => {
     return createDOM(Array.from(window.body.querySelectorAll('.sub-nav_list .menu-item-type-taxonomy')).map((el) => `
       <bva-link class="bva-genre" href="${el.firstElementChild.getAttribute('href')}" title="${el.textContent}">
-        ${el.textContent}
+        ${capitalize(translateGenre(el.textContent))}
       </bva-link>
     `).join('\n'))
   }
 
   const getPageUrl = (page = 1) => {
-    return `${page > 1 ? `/page/${page}` : ''}/${location.search}`
+    return `${page > 1 ? `page/${page}` : ''}/${location.search}`
   }
 
   const createPagination = (currentPage, lastPage) => {
