@@ -24,8 +24,7 @@ const headerItems = [
     text: 'Liste',
     title: 'Liste des animés',
     path: '/liste-danimes/',
-    icon: 'list',
-    disabled: true
+    icon: 'list'
   },
   {
     id: 'new',

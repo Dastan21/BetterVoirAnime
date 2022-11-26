@@ -6,7 +6,6 @@ import * as storage from './common/storage'
 
 import { buildHeader } from './common/header'
 import { buildCloudflarePage } from './pages/cloudflare'
-import { buildAnimeListPage } from './pages/anime-list'
 import { buildSearchPage } from './pages/search'
 import { buildAnimesPage } from './pages/anime'
 import { buildEpisodePage } from './pages/episode'
@@ -32,14 +31,13 @@ attachDOM(`
 `, document.body)
 
 function buildPage (section) {
+  buildHeader()
   switch (section) {
-    case 'anime-list': buildAnimeListPage(); break
     case 'search': buildSearchPage(); break
     case 'anime': buildAnimesPage(); break
     case 'episode': buildEpisodePage(); break
     default: buildHomePage()
   }
-  buildHeader()
 }
 const section = getCurrentSection()
 if (section === 'cloudflare') buildCloudflarePage()

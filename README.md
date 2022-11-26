@@ -33,8 +33,6 @@ Go to the [extensions](chrome://extensions) and click on "Load unpacked". Select
 You're more than welcome to report your feedback or issues with the app in [the issues section](https://github.com/Dastan21/BetterVoirAnime/issues).
 
 # 📝 TODO
-- Genres list page
-- Animes list page
 - Advanced search page
 - Commentary section
 - Rating animes

@@ -17,11 +17,24 @@ export function matchTag (html = document, tag = 'html') {
   return html.match(new RegExp(`<\\s*${tag}[^>]*>([\\s\\S]*)<\\s*\\/\\s*${tag}\\s*>`))?.[1]
 }
 
+/**
+ * Convert object to FormData.
+ * @param {any} data
+ * @returns {FormData}
+ */
+export function parseFormData (data = {}) {
+  if (data == null) return null
+  const formData = new FormData()
+  for (const key in data) formData.append(key, data[key])
+  return formData
+}
+
 export function parseAnimeList (root = window.body) {
   return collectionToArray(root.querySelectorAll('.page-item-detail')).map((el) => {
     return {
       id: el.children?.[0]?.getAttribute('data-post-id'),
       title: el.children?.[1].children?.[0].children?.[0].children?.[0].text?.trim(),
+      synopsis: root.querySelector('.post-summary')?.textContent?.trim() || null,
       url: el.children?.[1].children?.[0].children?.[0].children?.[0].getAttribute('href'),
       image: el.children?.[0].children?.[0].children?.[0]?.getAttribute('src'),
       rating: Number(el.querySelector('.score')?.textContent?.trim()) || null,
@@ -33,18 +46,6 @@ export function parseAnimeList (root = window.body) {
       }))
     }
   })
-}
-
-/**
- * Convert object to FormData.
- * @param {any} data
- * @returns {FormData}
- */
-export function parseFormData (data = {}) {
-  if (data == null) return null
-  const formData = new FormData()
-  for (const key in data) formData.append(key, data[key])
-  return formData
 }
 
 export function parseAnime (root = window.body) {

@@ -1,5 +1,5 @@
 import { attachDOM, createDOM, getPagination, onTrigger, querySelectorList, toLocaleDate, isEmpty, onClickOutside, innerDOM, collectionToArray, getCurrentSection, buildTitle, capitalize, translateGenre } from '../common/utils'
-import { createEmptyDataMessage, createRating, createSwitch, createTabulation } from '../common/components'
+import { createEmptyDataMessage, createRating, createSwitch, createTabulation, createUnorderedList } from '../common/components'
 import { parseAnimeList } from '../common/parser'
 import { changePage, fetchAnimes, setupLinks } from '../common/api'
 
@@ -14,11 +14,25 @@ export function buildHomePage () {
   if (section === 'genre-list') {
     const genre = window.body.querySelector('.entry-header .item-title').textContent.trim().toLowerCase()
     document.title = buildTitle(capitalize(translateGenre(genre)))
+  } else if (section === 'anime-list') {
+    document.title = buildTitle('Liste d\'animés')
   }
 
   // Extract data
   const animes = parseAnimeList()
   console.log(animes)
+
+  const sortList = collectionToArray(window.body.querySelectorAll('#manga-filte-alphabeta-bar > a')).map((s) => {
+    const text = capitalize(s.textContent.trim())
+    const href = s.getAttribute('href')
+    return {
+      text: text === 'All' ? 'Tous' : text,
+      attrs: {
+        title: text === 'All' ? 'Tous' : `Commençant par ${text}`,
+        href: text === '#' ? href.replace('#', 'non-char') : href
+      }
+    }
+  })
 
   const buildAnimes = (animes, root) => {
     if (animes.length > 0) {
@@ -141,14 +155,6 @@ export function buildHomePage () {
     return $searchLanguage
   }
 
-  const createGenreList = () => {
-    return createDOM(Array.from(window.body.querySelectorAll('.sub-nav_list .menu-item-type-taxonomy')).map((el) => `
-      <bva-link class="bva-genre" href="${el.firstElementChild.getAttribute('href')}" title="${el.textContent}">
-        ${capitalize(translateGenre(el.textContent))}
-      </bva-link>
-    `).join('\n'))
-  }
-
   const getPageUrl = (page = 1) => {
     return `${page > 1 ? `page/${page}` : ''}/${location.search}`
   }
@@ -232,33 +238,42 @@ export function buildHomePage () {
 
   const createEpisodeList = (episodes) => {
     if (episodes.length <= 0) return null
-    return episodes.map((ep) => `
+    const $episodesWrapper = createDOM('<div class="bva-item-episodes"></div>')
+    const $episodesList = createDOM(episodes.map((ep) => `
       <bva-link class="bva-item-episode" href="${ep.url}">
         <div class="bva-item-episode-hover"></div>
         <div class="bva-item-episode-number" title="${!ep.number.startsWith('(') ? 'Épisode ' : ''}${ep.number}">${isNaN(ep.number) ? '#' : ep.number}</div>
         <span class="bva-item-episode-date" title="${toLocaleDate(ep.date.absolute)}">${ep.date.relative}</span>
       </bva-link>
-    `).join('\n')
+    `).join('\n'))
+    attachDOM($episodesList, $episodesWrapper)
+
+    return $episodesWrapper
+  }
+
+  const createSynopsis = (synopsis) => {
+    if (synopsis == null) return null
+    return createDOM(`<div class="bva-item-synopsis">${synopsis}</div>`)
   }
 
   const createAnimeList = (animes) => {
-    const $animeItems = createDOM(animes.map((item) => {
-      const $item = createDOM(`
+    const $animeItems = createDOM(animes.map((anime) => {
+      const $anime = createDOM(`
         <div class="bva-item">
           <div class="bva-item-thumb">
-            <bva-link href="${item.url}"><img class="bva-item-thumbnail" src="${item.image}" title="${item.title}"></bva-link>
-            ${item.vf === true ? `<div class="bva-item-vf" title="VF">${vfMarkIcon}</div>` : ''}
+            <bva-link href="${anime.url}"><img class="bva-item-thumbnail" src="${anime.image}" title="${anime.title}"></bva-link>
+            ${anime.vf === true ? `<div class="bva-item-vf" title="VF">${vfMarkIcon}</div>` : ''}
           </div>
           <div class="bva-item-infos">
-            <bva-link href="${item.url}" class="bva-item-title" title="${item.title}">${item.title}</bva-link>
-            <div class="bva-item-episodes"></div>
+            <bva-link href="${anime.url}" class="bva-item-title" title="${anime.title}">${anime.title}</bva-link>
           </div>
         </div>
       `)
-      attachDOM(createRating(item.rating), $item, '.bva-item-thumb')
-      attachDOM(createEpisodeList(item.episodes), $item, '.bva-item-episodes')
+      attachDOM(createRating(anime.rating), $anime, '.bva-item-thumb')
+      attachDOM(createSynopsis(anime.synopsis), $anime, '.bva-item-infos')
+      attachDOM(createEpisodeList(anime.episodes), $anime, '.bva-item-infos')
 
-      return $item
+      return $anime
     }))
 
     const $animeList = createDOM('<div class="bva-animes-container"></div>')
@@ -278,7 +293,7 @@ export function buildHomePage () {
   `)
   attachDOM(createAnimeSearch(), $home, '.bva-animes-search-container')
   attachDOM(createSearchLanguage(), $home, '.bva-animes-search-container')
-  attachDOM(createGenreList(), $home, '.bva-genre-subcontainer')
+  attachDOM(createUnorderedList(sortList), $home, '.bva-genre-subcontainer')
   attachDOM(createTabulation(getLanguageTabs()), $home, '.bva-content-wrapper', true)
   buildAnimes(animes)
 

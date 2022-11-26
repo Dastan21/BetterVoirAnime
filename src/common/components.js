@@ -131,7 +131,7 @@ export function createBreadcrumb (items = []) {
  * @typedef {object} TabulationItem
  * @property {string} TabulationItem.name
  * @property {boolean} [TabulationItem.selected]
- * @property {string} [TabulationItem.attrs]
+ * @property {any} [TabulationItem.attrs]
  *
  * Create tabulation.
  * @param {TabulationItem[]} tabs
@@ -163,9 +163,10 @@ export function createTabulation (tabs = [], change) {
 /**
  * Create rating tooltip.
  * @param {number} rating
- * @returns {HTMLCollection}
+ * @returns {HTMLCollection | null}
  */
 export function createRating (rating) {
+  if (rating == null) return
   const $rating = createDOM(`
     <div class="bva-rating">
       <div class="bva-rating-tooltip">${rating} / 5 ★</div>
@@ -220,7 +221,7 @@ export function createSwitch (change) {
  * @typedef {object} DropdownItem
  * @property {string} DropdownItem.name
  * @property {(e: Event) => void} DropdownItem.action
- * @property {string} [DropdownItem.attrs]
+ * @property {any} [DropdownItem.attrs]
  * @property {DropdownItem[]} [DropdownItem.children]
  *
  * Create dropdown.
@@ -259,4 +260,26 @@ export function createDropdown ($trigger, items = []) {
   attachDOM($itemsContainer, $dropdown)
 
   return $dropdown
+}
+
+/**
+ * List item.
+ * @typedef {object} ListItem
+ * @property {string} ListItem.text
+ * @property {any} [ListItem.attrs]
+ *
+ * Create unordered list.
+ * @param {ListItem[]} list
+ */
+export function createUnorderedList (list = []) {
+  return createDOM(list.map((item) => {
+    const $item = createDOM(`
+      <bva-link class="bva-genre">
+        ${item.text}
+      </bva-link>
+    `)
+    applyAttrs($item, item.attrs)
+
+    return $item
+  }))
 }
