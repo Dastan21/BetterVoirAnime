@@ -156,7 +156,7 @@ export function buildHomePage () {
   }
 
   const getPageUrl = (page = 1) => {
-    return `${page > 1 ? `page/${page}` : ''}/${location.search}`
+    return `${page > 1 ? `${location.pathname.replace(/page\/\d*\//, '')}page/${page}` : ''}/${location.search}`
   }
 
   const createPagination = (currentPage, lastPage) => {
