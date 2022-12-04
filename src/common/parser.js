@@ -29,46 +29,28 @@ export function parseFormData (data = {}) {
   return formData
 }
 
-export function parseAnimeList (root = window.body) {
-  return collectionToArray(root.querySelectorAll('.page-item-detail')).map((el) => {
-    return {
-      id: el.children?.[0]?.getAttribute('data-post-id'),
-      title: el.children?.[1].children?.[0].children?.[0].children?.[0].text?.trim(),
-      synopsis: root.querySelector('.post-summary')?.textContent?.trim() || null,
-      url: el.children?.[1].children?.[0].children?.[0].children?.[0].getAttribute('href'),
-      image: el.children?.[0].children?.[0].children?.[0]?.getAttribute('src'),
-      rating: Number(el.querySelector('.score')?.textContent?.trim()) || null,
-      vf: el.children?.[0].children?.[0].children?.[1] != null,
-      episodes: collectionToArray(el.querySelector('.list-chapter')?.children).map((ep) => ({
-        number: ep.children?.[0].children?.[0].text.trim(),
-        date: getDate(ep.children?.[1].textContent.trim()),
-        url: ep.children?.[0].children?.[0].getAttribute('href')
-      }))
-    }
-  })
-}
-
 export function parseAnime (root = window.body) {
   const anime = {
-    id: root.querySelector('.rating-post-id').value,
-    title: root.querySelector('.post-title').textContent.trim(),
+    id: root.querySelector('.rating-post-id')?.value,
+    title: root.querySelector('.post-title')?.textContent?.trim(),
     title_vo: undefined,
     title_vf: undefined,
-    synopsis: root.querySelector('.summary__content').textContent.trim(),
-    url: location.href,
+    synopsis: root.querySelector('.summary__content, .post-summary')?.textContent?.trim(),
+    url: root.querySelector('.c-image-hover a')?.getAttribute('href') ?? location.href,
     type: undefined,
     status: undefined,
-    image: root.querySelector('.summary_image img').getAttribute('src'),
+    image: root.querySelector('.summary_image img, .c-image-hover img')?.getAttribute('src'),
     start_date: undefined,
     end_date: undefined,
     studios: undefined,
     genres: [],
-    rating: Number(root.querySelector('.post-total-rating > .score').textContent.trim()),
+    rating: Number(root.querySelector('.post-total-rating > .score')?.textContent?.trim()),
     vf: root.querySelector('.manga-vf-flag') != null,
-    episodes: collectionToArray(root.querySelector('.version-chap')?.children).map((ep) => ({
-      title: ep.children?.[0].textContent.replace(/\n/g, '').trim(),
-      date: getDate(ep.children?.[1].textContent.trim()),
-      url: ep.children?.[0].getAttribute('href')
+    episodes: collectionToArray(root.querySelectorAll('.chapter-item, .wp-manga-chapter')).map((ep) => ({
+      number: ep.querySelector('.btn-link')?.textContent?.trim() ?? ep.firstElementChild?.textContent?.trim()?.match(/\d*$/)[0],
+      title: ep.firstElementChild?.textContent?.replace(/\n/g, '')?.trim(),
+      date: getDate(ep.children?.[1]?.textContent?.trim()),
+      url: ep.firstElementChild?.getAttribute('href')
     }))
   }
 
@@ -83,7 +65,12 @@ export function parseAnime (root = window.body) {
     if (key === 'start date') anime.start_date = new Date(value)
     if (key === 'end date') anime.end_date = new Date(value)
     if (key === 'studios') anime.studios = value
-    if (key === 'genre(s)') {
+    if (key === 'alternative') {
+      const values = value.split(',').map(v => v.trim())
+      anime.title_vo = values[0] || undefined
+      anime.title_vf = values[2] || undefined
+    }
+    if (key === 'genre(s)' || key === 'genres') {
       anime.genres = value.toLowerCase().split(', ').map((genre) => ({
         name: capitalize(translateGenre(genre)),
         url: `${BASE_URL}anime-genre/${encodeURI(genre)}`
@@ -92,6 +79,10 @@ export function parseAnime (root = window.body) {
   })
 
   return anime
+}
+
+export function parseAnimeList (root = window.body) {
+  return collectionToArray(root.querySelectorAll('.page-item-detail, .c-tabs-item__content')).map((item) => parseAnime(item))
 }
 
 export function parseEpisode (root = window.body) {
@@ -107,4 +98,20 @@ export function parseEpisode (root = window.body) {
       title: title.split(' - ')[0]
     }
   }
+}
+
+export function parseTabs (root = window.body) {
+  return collectionToArray(root.querySelectorAll('.c-tabs-content a'))
+}
+
+export function parseGenreList (root = window.body) {
+  return collectionToArray(root.querySelectorAll('.sub-nav_list .menu-item-type-taxonomy a'))
+}
+
+export function parseBreadcrumb (root = window.body) {
+  return collectionToArray(root.querySelectorAll('.breadcrumb > li'))
+}
+
+export function parseSearchOptions (root = window.body) {
+  const $searchAdvanced = root.querySelector('#search-advanced')
 }

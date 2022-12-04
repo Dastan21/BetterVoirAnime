@@ -8,7 +8,7 @@ import starEmptyIcon from '../assets/icons/star_empty.svg'
 /**
  * Select item.
  * @typedef {object} SelectItem
- * @property {string} SelectItem.name
+ * @property {string} SelectItem.text
  * @property {string} SelectItem.value
  * @property {boolean} [SelectItem.selected]
  * @property {any} [SelectItem.attrs]
@@ -39,7 +39,7 @@ export function createSelect (items, change) {
     const item = items[hoveredItemIndex]
     $selectLabel.toggleAttribute('data-active', false)
     if (hoveredItemIndex === selectedItemIndex) return
-    $selectLabel.querySelector('span').textContent = item.name
+    $selectLabel.querySelector('span').textContent = item.text
     change?.(item)
   }
 
@@ -70,7 +70,7 @@ export function createSelect (items, change) {
 
   const $selectLabel = createDOM(`
     <label class="bva-select-label" tabindex="0">
-      <span>${items[hoveredItemIndex].name}</span>
+      <span>${items[hoveredItemIndex].text}</span>
       <div class="bva-icon bva-icon-270">${arrowIcon}</div>
     </label>
   `)
@@ -80,7 +80,7 @@ export function createSelect (items, change) {
   const $selectOptions = createDOM('<bva-select-options></bva-select-options>')
   $selectOptions.onmouseover = (e) => hoverItem(items.findIndex(i => i.value === e.target.getAttribute('value')))
   const $selectOptionsList = createDOM(items.map((item) => {
-    const $item = createDOM(`<bva-select-item value="${item.value}" tabindex="0"><span>${item.name}</span></bva-select-item>`)
+    const $item = createDOM(`<bva-select-item value="${item.value}" tabindex="0"><span>${item.text}</span></bva-select-item>`)
     applyAttrs($item, item.attrs)
     $item.toggleAttribute('data-selected', item.selected)
     $item.onclick = () => selectItem()
@@ -103,7 +103,7 @@ export function createSelect (items, change) {
 /**
  * Breadcrumb item.
  * @typedef {object} BreadcrumbItem
- * @property {string} BreadcrumbItem.name
+ * @property {string} BreadcrumbItem.text
  * @property {any} [BreadcrumbItem.attrs]
  *
  * Create breadcrumb.
@@ -113,7 +113,7 @@ export function createSelect (items, change) {
 export function createBreadcrumb (items = []) {
   const $breadcrumbItems = createDOM(items.map((item) => {
     const $itemContainer = createDOM('<li class="bva-breadcrumb-item"></li>')
-    const $item = createDOM(item.attrs?.href != null ? `<bva-link>${item.name}</bva-link>` : `<span>${item.name}</span>`)
+    const $item = createDOM(item.attrs?.href != null ? `<bva-link>${item.text}</bva-link>` : `<span>${item.text}</span>`)
     applyAttrs($item, item.attrs)
     attachDOM($item, $itemContainer)
 
@@ -129,7 +129,7 @@ export function createBreadcrumb (items = []) {
 /**
  * Tabulation item.
  * @typedef {object} TabulationItem
- * @property {string} TabulationItem.name
+ * @property {string} TabulationItem.text
  * @property {boolean} [TabulationItem.selected]
  * @property {any} [TabulationItem.attrs]
  *
@@ -141,7 +141,7 @@ export function createBreadcrumb (items = []) {
 export function createTabulation (tabs = [], change) {
   const $tabList = createDOM(tabs.map((tab) => {
     const isLink = tab.attrs?.href != null
-    const $tab = createDOM(`<${isLink ? 'bva-link' : 'button'} class="bva-tab">${tab.name}</${!isLink ? 'bva-link' : 'button'}>`)
+    const $tab = createDOM(`<${isLink ? 'bva-link' : 'button'} class="bva-tab">${tab.text}</${!isLink ? 'bva-link' : 'button'}>`)
     $tab.onclick = (e) => {
       if (e.currentTarget.hasAttribute('data-active')) return
       collectionToArray($tabList).forEach(($t) => $t.toggleAttribute('data-active', false))
@@ -219,7 +219,7 @@ export function createSwitch (change) {
 /**
  * Dropdown item.
  * @typedef {object} DropdownItem
- * @property {string} DropdownItem.name
+ * @property {string} DropdownItem.text
  * @property {(e: Event) => void} DropdownItem.action
  * @property {any} [DropdownItem.attrs]
  * @property {DropdownItem[]} [DropdownItem.children]
@@ -250,7 +250,7 @@ export function createDropdown ($trigger, items = []) {
   const $dropdownItems = createDOM(items.map((item) => {
     const $item = createDOM('<div class="bva-dropdown-item"></div>')
     $item.onclick = item.action
-    let $itemContent = createDOM(`<div class="bva-dropdown-item">${item.name}</div>`)
+    let $itemContent = createDOM(`<div class="bva-dropdown-item">${item.text}</div>`)
     applyAttrs($itemContent, item.attrs)
     if (item.children != null) $itemContent = createDropdown($itemContent, item.children)
     attachDOM($itemContent, $item)
@@ -269,10 +269,12 @@ export function createDropdown ($trigger, items = []) {
  * @property {any} [ListItem.attrs]
  *
  * Create unordered list.
+ * @param {string} name
  * @param {ListItem[]} list
  */
-export function createUnorderedList (list = []) {
-  return createDOM(list.map((item) => {
+export function createUnorderedList (name, list = []) {
+  const $wrapper = createDOM(`<div class="bva-${name}-container"></div>`)
+  const $list = createDOM(list.map((item) => {
     const $item = createDOM(`
       <bva-link class="bva-genre">
         ${item.text}
@@ -282,4 +284,7 @@ export function createUnorderedList (list = []) {
 
     return $item
   }))
+  attachDOM($list, $wrapper)
+
+  return $wrapper
 }

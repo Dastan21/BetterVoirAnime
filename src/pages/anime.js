@@ -1,18 +1,18 @@
 import { createBreadcrumb, createRating } from '../common/components'
-import { attachDOM, innerDOM, capitalize, collectionToArray, createDOM, onTrigger, toLocaleDate, translateGenre, buildTitle } from '../common/utils'
-import { parseAnime } from '../common/parser'
+import { attachDOM, innerDOM, capitalize, createDOM, onTrigger, toLocaleDate, translateGenre, buildTitle } from '../common/utils'
+import { parseAnime, parseBreadcrumb } from '../common/parser'
 
 import sortUpIcon from '../assets/icons/sort_up.svg'
 import sortDownIcon from '../assets/icons/sort_down.svg'
 
 function getBreadcrumbItems () {
-  return collectionToArray(document.querySelectorAll('.breadcrumb > li')).map(($l) => {
-    const name = $l.textContent.trim()
+  return parseBreadcrumb().map(($l) => {
+    const text = $l.textContent.trim()
     return {
-      name: name === 'Home' ? 'Accueil' : capitalize(translateGenre(name)),
+      text: text === 'Home' ? 'Accueil' : capitalize(translateGenre(text)),
       attrs: {
         href: $l.firstElementChild?.getAttribute('href'),
-        title: name
+        title: text
       }
     }
   })

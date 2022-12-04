@@ -1,6 +1,6 @@
 import { createBreadcrumb, createSelect, createTabulation } from '../common/components'
 import { attachDOM, innerDOM, capitalize, collectionToArray, createDOM, observe, translateGenre, translateQuickNavigation, buildTitle } from '../common/utils'
-import { parseEpisode } from '../common/parser'
+import { parseBreadcrumb, parseEpisode } from '../common/parser'
 import * as storage from '../common/storage'
 
 import arrowIcon from '../assets/icons/arrow.svg'
@@ -33,13 +33,13 @@ function onSelectEpisode (item) {
 }
 
 function getBreadcrumbItems () {
-  return collectionToArray(document.querySelectorAll('.breadcrumb > li')).map(($l) => {
-    const name = $l.textContent.trim()
+  return parseBreadcrumb().map(($l) => {
+    const text = $l.textContent.trim()
     return {
-      name: name === 'Home' ? 'Accueil' : capitalize(translateGenre(name)),
+      text: text === 'Home' ? 'Accueil' : capitalize(translateGenre(text)),
       attrs: {
         href: $l.firstElementChild?.getAttribute('href'),
-        title: name
+        title: text
       }
     }
   })
@@ -47,7 +47,7 @@ function getBreadcrumbItems () {
 
 function getHostTabs (hosts) {
   return hosts.map((h) => ({
-    name: h,
+    text: h,
     selected: h === document.querySelector('#manga-reading-nav-head .host-select')?.value?.replace('LECTEUR ', ''),
     attrs: {
       title: `Lecteur ${h}`,

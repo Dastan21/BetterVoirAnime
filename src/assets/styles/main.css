@@ -680,27 +680,30 @@ bva-button-icon:active {
 
 
 /* Home page */
-.bva-animes-container {
+.bva-animes-container{
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
   column-gap: 2em;
   row-gap: 2em;
 }
 
+.bva-animes-container[data-size="multiple"] {
+  grid-template-columns: repeat(4, 1fr);
+}
+
 @media only screen and (max-width: 1760px) {
-  .bva-animes-container {
+  .bva-animes-container[data-size="multiple"] {
     grid-template-columns: repeat(3, 1fr);
   }
 }
 
 @media only screen and (max-width: 1440px) {
-  .bva-animes-container {
+  .bva-animes-container[data-size="multiple"] {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media only screen and (max-width: 1080px) {
-  .bva-animes-container {
+  .bva-animes-container[data-size="multiple"] {
     grid-template-columns: repeat(1, 1fr);
   }
 }
@@ -1201,13 +1204,6 @@ bva-button-icon:active {
   width: 0;
 }
 
-/* .bva-actions-separator {
-  width: 2px;
-  height: 70%;
-  margin: auto .75em auto .25em;
-  background-color: var(--color-text2);
-} */
-
 .bva-action-btn {
   display: flex;
   position: relative;
@@ -1281,6 +1277,35 @@ bva-button-icon:active {
   width: 100%;
   border-radius: .5em;
   border: 2px solid var(--color-primary);
+}
+
+.bva-content-header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-bottom: 2em;
+  gap: 2em;
+}
+
+.bva-content-header > * {
+  display: flex;
+  width: 50%;
+  gap: .5em;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: auto;
+}
+
+@media only screen and (max-width: 1280px) {
+  .bva-content-header > * {
+    width: 70%;
+  }
+}
+
+@media only screen and (max-width: 960px) {
+  .bva-content-header > * {
+    width: 95%;
+  }
 }
 
 .bva-animes-search-container {
@@ -1410,32 +1435,6 @@ bva-button-icon:active {
 
 
 /* Genres */
-.bva-genre-container {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 2em;
-}
-
-.bva-genre-subcontainer {
-  display: flex;
-  width: 50%;
-  gap: .5em;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-@media only screen and (max-width: 1280px) {
-  .bva-genre-subcontainer {
-    width: 70%;
-  }
-}
-
-@media only screen and (max-width: 960px) {
-  .bva-genre-subcontainer {
-    width: 95%;
-  }
-}
-
 .bva-genre {
   font-size: 12px;
   text-transform: uppercase;

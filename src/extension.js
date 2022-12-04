@@ -6,7 +6,6 @@ import * as storage from './common/storage'
 
 import { buildHeader } from './common/header'
 import { buildCloudflarePage } from './pages/cloudflare'
-import { buildSearchPage } from './pages/search'
 import { buildAnimesPage } from './pages/anime'
 import { buildEpisodePage } from './pages/episode'
 import { buildHomePage } from './pages/home'
@@ -33,7 +32,6 @@ attachDOM(`
 function buildPage (section) {
   buildHeader()
   switch (section) {
-    case 'search': buildSearchPage(); break
     case 'anime': buildAnimesPage(); break
     case 'episode': buildEpisodePage(); break
     default: buildHomePage()

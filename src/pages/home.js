@@ -1,6 +1,6 @@
 import { attachDOM, createDOM, getPagination, onTrigger, querySelectorList, toLocaleDate, isEmpty, onClickOutside, innerDOM, collectionToArray, getCurrentSection, buildTitle, capitalize, translateGenre } from '../common/utils'
 import { createEmptyDataMessage, createRating, createSwitch, createTabulation, createUnorderedList } from '../common/components'
-import { parseAnimeList } from '../common/parser'
+import { parseAnimeList, parseGenreList, parseTabs } from '../common/parser'
 import { changePage, fetchAnimes, setupLinks } from '../common/api'
 
 import vfMarkIcon from '../assets/icons/vf_mark.svg'
@@ -22,9 +22,20 @@ export function buildHomePage () {
   const animes = parseAnimeList()
   console.log(animes)
 
-  const sortList = collectionToArray(window.body.querySelectorAll('#manga-filte-alphabeta-bar > a')).map((s) => {
-    const text = capitalize(s.textContent.trim())
-    const href = s.getAttribute('href')
+  const genreList = parseGenreList().map(($s) => {
+    const text = capitalize(translateGenre($s.textContent.trim()))
+    return {
+      text,
+      attrs: {
+        title: text,
+        href: $s.getAttribute('href')
+      }
+    }
+  })
+
+  const sortList = collectionToArray(window.body.querySelectorAll('#manga-filte-alphabeta-bar > a')).map(($s) => {
+    const text = capitalize($s.textContent.trim())
+    const href = $s.getAttribute('href')
     return {
       text: text === 'All' ? 'Tous' : text,
       attrs: {
@@ -34,18 +45,18 @@ export function buildHomePage () {
     }
   })
 
-  const buildAnimes = (animes, root) => {
+  const buildAnimes = (animes, size) => {
     if (animes.length > 0) {
-      innerDOM(createAnimeList(animes), $home, '.bva-content-container')
-      attachDOM(createPagination(...getPagination(root)), $home, '.bva-content-container')
+      innerDOM(createAnimeList(animes, size), $home, '.bva-content-container')
+      attachDOM(createPagination(...getPagination()), $home, '.bva-content-container')
     } else {
       innerDOM(createEmptyDataMessage(), $home, '.bva-content-container')
     }
   }
 
-  const getLanguageTabs = () => {
-    return collectionToArray(window.body.querySelectorAll('.c-tabs-content a')).map(($a) => ({
-      name: $a.textContent.trim(),
+  const getTabs = () => {
+    return parseTabs().map(($a) => ({
+      text: $a.textContent.trim(),
       selected: $a.parentElement.classList.contains('active'),
       attrs: {
         title: $a.textContent.trim(),
@@ -256,7 +267,7 @@ export function buildHomePage () {
     return createDOM(`<div class="bva-item-synopsis">${synopsis}</div>`)
   }
 
-  const createAnimeList = (animes) => {
+  const createAnimeList = (animes, size = 'multiple') => {
     const $animeItems = createDOM(animes.map((anime) => {
       const $anime = createDOM(`
         <div class="bva-item">
@@ -276,7 +287,7 @@ export function buildHomePage () {
       return $anime
     }))
 
-    const $animeList = createDOM('<div class="bva-animes-container"></div>')
+    const $animeList = createDOM(`<div class="bva-animes-container" data-size="${size}"></div>`)
     attachDOM($animeItems, $animeList, '.bva-animes-container')
 
     return $animeList
@@ -284,18 +295,17 @@ export function buildHomePage () {
 
   const $home = createDOM(`
     <div class="bva-animes-search-container"></div>
-    <div class="bva-genre-container">
-      <div class="bva-genre-subcontainer"></div>
-    </div>
+    <div class="bva-content-header"></div>
     <div class="bva-content-wrapper">
       <div class="bva-content-container"></div>
     </div>
   `)
   attachDOM(createAnimeSearch(), $home, '.bva-animes-search-container')
   attachDOM(createSearchLanguage(), $home, '.bva-animes-search-container')
-  attachDOM(createUnorderedList(sortList), $home, '.bva-genre-subcontainer')
-  attachDOM(createTabulation(getLanguageTabs()), $home, '.bva-content-wrapper', true)
-  buildAnimes(animes)
+  attachDOM(createUnorderedList('genre', genreList), $home, '.bva-content-header')
+  attachDOM(createUnorderedList('sort', sortList), $home, '.bva-content-header')
+  attachDOM(createTabulation(getTabs()), $home, '.bva-content-wrapper', true)
+  buildAnimes(animes, section === 'search' ? 'single' : 'multiple')
 
   innerDOM($home, $main)
 }
