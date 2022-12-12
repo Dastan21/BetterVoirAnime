@@ -6,6 +6,13 @@ export const NEED_REFRESH = ['episode']
 
 export const defaultTheme = window.matchMedia?.('(prefers-color-scheme: dark)').matches === true ? 'dark' : 'light'
 
+export const SEARCH_OPTIONS_TYPES = {
+  CHECKBOX: 'checkbox',
+  SELECT: 'select',
+  SWITCH: 'switch',
+  INPUT: 'input'
+}
+
 export function getCurrentSection (title = window.title) {
   const bvaRoot = document.getElementById('bva-root')
   let section = bvaRoot.getAttribute('bva-section')
@@ -105,6 +112,15 @@ export function translateGenre (genre) {
   }[genre.toLowerCase()] ?? genre
 }
 
+export function translateStatus (status) {
+  return {
+    completed: 'terminé',
+    ongoing: 'en cours',
+    canceled: 'abandonné',
+    'on hold': 'prochainement'
+  }[status.toLowerCase()] ?? status
+}
+
 export function capitalize (str = '') { return str.charAt(0).toUpperCase() + str.slice(1, str.length).toLowerCase() }
 
 export function getPagination (root = window.body) { return root.querySelector('.wp-pagenavi > .pages')?.textContent.trim().match(/\d+/gm).map(Number) ?? [] }
@@ -200,7 +216,7 @@ export function observe (selector, callback, options = {}, root = document) {
     options = {}
   }
   const observer = new MutationObserver((_, instance) => {
-    const el = root.querySelector(selector)
+    const el = root.querySelector(selector) || root.matches?.(selector) || root.matchesSelector?.(selector)
     if (el == null) return
     callback?.(el, instance)
     if (!options.keep) instance.disconnect()
@@ -261,18 +277,22 @@ export function onTrigger ($el, callback, ...data) {
 export function onClickOutside ($el, callback) {
   if ($el.__clickoutside) return
 
-  $el.__clickoutside = true
-  const orig = $el.onclick
-  $el.onclick = (e) => {
-    if (!e.path.some(($e) => $el.isEqualNode($e))) return
+  const clickFunction = (e) => {
+    if (!e.path.some(($e) => {
+      if ($e.tagName == null) return false
+      return $el.isEqualNode($e)
+    })) return
     orig?.(e)
     e.stopPropagation()
   }
+
+  $el.__clickoutside = true
+  const orig = $el.onclick
+  $el.onclick = clickFunction
   if (document.__onclicks == null) {
     document.__onclicks = []
-    document.onclick = (e) => {
-      document.__onclicks.forEach((c) => c(e))
-    }
+    document.onclick = (e) => document.__onclicks.forEach((c) => c(e))
+    document.clickOutside = clickFunction
   }
   document.__onclicks.push(callback)
 }
@@ -297,4 +317,16 @@ export function unescapeHTML (html) {
     .replace(/&gt;/g, '>')
     .replace(/&quot;/g, '"')
     .replace(/&#039;/g, '\'')
+}
+
+export function queryByXPath (root, xpath) {
+  if (typeof root === 'string') {
+    xpath = root
+    root = document
+  }
+  try {
+    return document.evaluate(xpath, root).iterateNext()
+  } catch (_) {
+    return null
+  }
 }

@@ -1,4 +1,4 @@
-import { applyAttrs, attachDOM, BASE_URL, changeTheme, collectionToArray, createDOM, getChildIndex, getCurrentSection, innerDOM, onClickOutside, onTrigger } from './utils'
+import { applyAttrs, attachDOM, BASE_URL, buildTitle, changeTheme, collectionToArray, createDOM, getChildIndex, getCurrentSection, innerDOM, onClickOutside, onTrigger } from './utils'
 import { changePage, request } from './api'
 import * as storage from '../common/storage'
 
@@ -14,39 +14,38 @@ import resumeIcon from '../assets/icons/resume.svg'
 const headerItems = [
   {
     id: 'home',
-    text: 'Accueil',
+    label: 'Accueil',
     title: 'Accueil',
     path: '/',
     icon: 'home'
   },
   {
     id: 'anime-list',
-    text: 'Liste',
+    label: 'Liste',
     title: 'Liste des animés',
     path: '/liste-danimes/',
     icon: 'list'
   },
   {
     id: 'new',
-    text: 'Nouveau',
+    label: 'Nouveau',
     title: 'Nouveaux ajouts',
     path: '/nouveaux-ajouts/',
     icon: 'new'
   },
   {
     id: 'soon',
-    text: 'Prochainement',
+    label: 'Prochainement',
     title: 'Prochainement',
     path: '/prochainement/',
     icon: 'soon'
   },
   {
     id: 'search',
-    text: 'Recherche avancée',
+    label: 'Recherche avancée',
     title: 'Recherche avancée',
     path: '/?s=&amp;post_type=wp-manga',
-    icon: 'a_search',
-    disabled: true
+    icon: 'a_search'
   }
 ]
 
@@ -54,14 +53,14 @@ const menuTab = {
   items: [
     {
       id: 'theme',
-      text: 'Thème',
+      label: 'Thème',
       icon: themeIcon,
       attrs: {
         title: 'Thème'
       },
       items: [
         {
-          text: 'Clair',
+          label: 'Clair',
           icon: dotIcon,
           attrs: {
             title: 'Thème clair',
@@ -70,7 +69,7 @@ const menuTab = {
           action: () => changeTheme('light')
         },
         {
-          text: 'Sombre',
+          label: 'Sombre',
           icon: dotIcon,
           attrs: {
             title: 'Thème sombre',
@@ -79,7 +78,7 @@ const menuTab = {
           action: () => changeTheme('dark')
         },
         {
-          text: 'Nord',
+          label: 'Nord',
           icon: dotIcon,
           attrs: {
             title: 'Thème nord',
@@ -90,7 +89,7 @@ const menuTab = {
       ]
     },
     {
-      text: 'Animé aléatoire',
+      label: 'Animé aléatoire',
       icon: randomIcon,
       attrs: {
         title: 'Découvrir un animé'
@@ -108,7 +107,7 @@ const menuTab = {
       }
     },
     {
-      text: 'Reprendre',
+      label: 'Reprendre',
       icon: resumeIcon,
       attrs: {
         title: 'Reprendre au dernier épisode'
@@ -134,12 +133,12 @@ export function buildHeader () {
     return createDOM(headerItems.filter(i => !i.disabled).map((item) => {
       const $item = createDOM(`
         <bva-link class="bva-header-item" href="${item.path}" title="${item.title}">
-          <span>${item.text}</span>
+          <span>${item.label}</span>
         </bva-link>
       `)
       const active = item.id === getCurrentSection()
       $item.toggleAttribute('data-active', active)
-      if (active) document.title = `${item.text} - VoirAnime`
+      if (active) document.title = buildTitle(item.label)
 
       return $item
     }))
@@ -169,7 +168,7 @@ export function buildHeader () {
         const target = e.currentTarget
         if (target.hasAttribute('data-disabled')) return
         if (item.items != null && item.items.length > 0) {
-          $headerMenu.setAttribute('data-tab', item.id ?? item.text)
+          $headerMenu.setAttribute('data-tab', item.id ?? item.label)
           attachDOM(createHeaderTab(item), $headerMenu)
         } else {
           item.action?.(e, target)
@@ -180,7 +179,7 @@ export function buildHeader () {
 
       const $headerMenuTab = createDOM(`
         <div class="bva-header-menu-tab">
-          <span class="bva-header-menu-tab-name">${tab.text}<span>
+          <span class="bva-header-menu-tab-name">${tab.label}<span>
         </div>
       `)
       const $headerMenuTabBack = createDOM(`<div class="bva-header-menu-tab-back bva-icon" tabindex="0">${arrowIcon}</div>`)
@@ -194,7 +193,7 @@ export function buildHeader () {
         const $item = createDOM(`
           <div class="bva-header-menu-item" tabindex="0">
             <div class="bva-icon">${item.icon ?? ''}</div>
-            <span class="bva-header-menu-item-text">${item.text}</span>
+            <span class="bva-header-menu-item-text">${item.label}</span>
             <div class="bva-icon bva-icon-180">${item.items != null && item.items.length > 0 ? arrowIcon : ''}</div>
           </div>
         `)

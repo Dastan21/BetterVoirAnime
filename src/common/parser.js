@@ -1,4 +1,4 @@
-import { BASE_URL, capitalize, collectionToArray, createDOM, getDate, translateGenre, unescapeHTML } from './utils'
+import { BASE_URL, capitalize, collectionToArray, createDOM, getDate, queryByXPath, SEARCH_OPTIONS_TYPES, translateGenre, translateStatus, unescapeHTML } from './utils'
 
 /**
  * Parse string to HTML
@@ -50,7 +50,7 @@ export function parseAnime (root = window.body) {
       number: ep.querySelector('.btn-link')?.textContent?.trim() ?? ep.firstElementChild?.textContent?.trim()?.match(/\d*$/)[0],
       title: ep.firstElementChild?.textContent?.replace(/\n/g, '')?.trim(),
       date: getDate(ep.children?.[1]?.textContent?.trim()),
-      url: ep.firstElementChild?.getAttribute('href')
+      url: ep.querySelector('a').getAttribute('href')
     }))
   }
 
@@ -72,7 +72,7 @@ export function parseAnime (root = window.body) {
     }
     if (key === 'genre(s)' || key === 'genres') {
       anime.genres = value.toLowerCase().split(', ').map((genre) => ({
-        name: capitalize(translateGenre(genre)),
+        label: capitalize(translateGenre(genre)),
         url: `${BASE_URL}anime-genre/${encodeURI(genre)}`
       }))
     }
@@ -114,4 +114,140 @@ export function parseBreadcrumb (root = window.body) {
 
 export function parseSearchOptions (root = window.body) {
   const $searchAdvanced = root.querySelector('#search-advanced')
+
+  const genreOptions = collectionToArray(root.querySelectorAll('.form-group.checkbox-group input'))
+  const statusOptions = collectionToArray(queryByXPath(root, '//span[text()="Status"]').parentElement.querySelectorAll('input'))
+  const typeOptions = collectionToArray(queryByXPath(root, '//span[text()="Format"]').parentElement.querySelectorAll('option'))
+
+  return [
+    {
+      type: SEARCH_OPTIONS_TYPES.INPUT,
+      attrs: {
+        name: 's',
+        placeholder: 'Rechercher...'
+      },
+      value: $searchAdvanced.querySelector('[name="s"]').value
+    },
+    {
+      type: SEARCH_OPTIONS_TYPES.CHECKBOX,
+      label: 'Genres',
+      attrs: {
+        name: 'genre'
+      },
+      value: genreOptions.filter($o => $o.hasAttribute('checked')).map($o => $o.value),
+      options: genreOptions.map(($o) => ({
+        label: capitalize(translateGenre($o.parentElement.textContent.trim())),
+        value: $o.value
+      }))
+    }, {
+      type: SEARCH_OPTIONS_TYPES.SWITCH,
+      label: 'Condition des genres',
+      attrs: {
+        name: 'op'
+      },
+      value: queryByXPath(root, '//span[text()="Genres condition"]').nextElementSibling.value,
+      options: [{
+        label: 'Ou',
+        value: 0,
+        attrs: {
+          title: 'Ou (au moins un genre)'
+        }
+      }, {
+        label: 'Et',
+        value: 1,
+        attrs: {
+          title: 'Et (tous les genres)'
+        }
+      }]
+    }, {
+      type: SEARCH_OPTIONS_TYPES.INPUT,
+      label: 'Auteur',
+      attrs: {
+        name: 'author',
+        placeholder: 'Auteur'
+      },
+      value: $searchAdvanced.querySelector('[name="author"]').value
+    }, {
+      type: SEARCH_OPTIONS_TYPES.INPUT,
+      label: 'Artiste',
+      attrs: {
+        name: 'artist',
+        placeholder: 'Artiste'
+      },
+      value: $searchAdvanced.querySelector('[name="artist"]').value
+    }, {
+      type: SEARCH_OPTIONS_TYPES.INPUT,
+      label: 'Année de sortie',
+      attrs: {
+        name: 'release',
+        placeholder: 'Année de sortie'
+      },
+      value: $searchAdvanced.querySelector('[name="release"]').value
+    }, {
+      type: SEARCH_OPTIONS_TYPES.SWITCH,
+      label: 'Contenu pour adulte',
+      attrs: {
+        name: 'adult'
+      },
+      value: queryByXPath(root, '//span[text()="Adult content"]').nextElementSibling.value,
+      options: [{
+        label: 'Non',
+        value: 0,
+        attrs: {
+          title: 'Non'
+        }
+      }, {
+        label: 'Oui',
+        value: 1,
+        attrs: {
+          title: 'Oui'
+        }
+      }]
+    }, {
+      type: SEARCH_OPTIONS_TYPES.CHECKBOX,
+      label: 'Statut',
+      attrs: {
+        name: 'status'
+      },
+      value: statusOptions.filter($o => $o.hasAttribute('checked')).map($o => $o.value),
+      options: statusOptions.map(($o) => ({
+        label: capitalize(translateStatus($o.nextElementSibling.textContent.trim())),
+        value: $o.value
+      }))
+    }, {
+      type: SEARCH_OPTIONS_TYPES.SELECT,
+      label: 'Types',
+      attrs: {
+        name: 'type'
+      },
+      value: queryByXPath(root, '//span[text()="Format"]').nextElementSibling.value,
+      options: typeOptions.map(($o) => {
+        const label = $o.textContent.trim()
+        return {
+          label: label === 'ALL' ? 'Tous' : label,
+          value: $o.value
+        }
+      })
+    }, {
+      type: SEARCH_OPTIONS_TYPES.SWITCH,
+      label: 'Langue',
+      attrs: {
+        name: 'language'
+      },
+      value: queryByXPath(root, '//span[text()="Language"]').parentElement.querySelector('[name="language"][checked]').value,
+      options: [{
+        label: 'VOSTFR',
+        value: 'vostfr',
+        attrs: {
+          title: 'VOSTFR'
+        }
+      }, {
+        label: 'VF',
+        value: 'vf',
+        attrs: {
+          title: 'VF'
+        }
+      }]
+    }
+  ]
 }

@@ -241,8 +241,8 @@ bva-link:focus {
   content: "";
   height: 1em;
   width: 1em;
-  left: .25em;
-  bottom: .25em;
+  left: .225em;
+  bottom: .225em;
   border-radius: 50%;
   background-color: #fff;
   transition: 300ms;
@@ -255,13 +255,11 @@ bva-link:focus {
 }
 
 .bva-switch > input:checked + .bva-switch-slider::before {
-  transform: translateX(1.3em);
+  transform: translateX(1.4em);
 }
 
 .bva-switch > input {
-  opacity: 0;
-  width: 0;
-  height: 0;
+  display: none;
 }
 
 
@@ -419,7 +417,7 @@ bva-select {
   user-select: none;
 }
 
-bva-select label {
+bva-select-label {
   display: grid;
   grid-template-columns: auto 1.3em;
   min-width: 3em;
@@ -431,31 +429,40 @@ bva-select label {
   border: 1px solid var(--color-hover);
   background-color: var(--color-background2);
   cursor: pointer;
+  overflow: hidden;
 }
 
-bva-select label:hover,
-bva-select label:focus,
-bva-select label[data-active] {
+bva-select-label:hover,
+bva-select-label:focus,
+bva-select-label[data-active] {
   outline: none;
   background-color: var(--color-hover);
 }
 
-bva-select label:active {
+bva-select-label:active {
   background-color: var(--color-background2);
 }
 
-bva-select label[data-active] {
+bva-select-label[data-active] {
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
 }
 
-bva-select label .bva-icon {
+bva-select-label .bva-icon {
   width: .45em;
   margin: auto;
 }
 
-bva-select input,
-bva-select label:not([data-active]) > bva-select-options {
+bva-select-label > span {
+  line-height: 1.75em;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+
+bva-select > input,
+bva-select-label:not([data-active]) > bva-select-options {
   visibility: hidden;
 }
 
@@ -478,17 +485,60 @@ bva-select-options {
 
 bva-select-item {
   background-color: var(--color-background2);
+  transition: background-color 400ms;
+}
+
+bva-select-item-label {
+  display: flex;
+  gap: .5em;
+  align-items: center;
+  width: 100%;
+  height: 100%;
   padding: 0 .5em;
+  background-color: transparent;
+  pointer-events: none;
   transition: 0ms;
 }
 
-bva-select-item[data-selected] {
+bva-select-item-label > input[type="checkbox"] {
+  display: inline-block !important;
+  background-color: var(--color-background2);
+  border: 1px solid var(--color-hover);
+}
+
+bva-select-item[data-selected] > * {
   background-color: var(--color-primary);
 }
 
-bva-select-item > span {
-  pointer-events: none;
+bva-select-item-label input[type="checkbox"] {
+  display: grid;
+  width: 1em;
+  height: 1em;
+  margin: 0;
+  color: var(--color-hover);
+  border: 1px solid var(--color-hover2);
+  border-radius: .1em;
+  background-color: var(--color-hover);
+  -webkit-appearance: none;
+  appearance: none;
+  transition: 0ms background-color;
 }
+
+bva-select-item-label input[type="checkbox"]:checked {
+  border-color: var(--color-primary);
+  background-color: var(--color-primary);
+}
+
+bva-select-item[data-selected] input[type="checkbox"]:not(:checked) {
+  border-color: var(--color-hover2);
+  background-color: var(--color-hover2);
+}
+
+bva-select-item[data-selected] input[type="checkbox"]:checked {
+  border-color: white;
+  background-color: white;
+}
+
 
 
 /* Button */
@@ -722,6 +772,10 @@ bva-button-icon:active {
   transition: 400ms;
 }
 
+.bva-animes-container[data-size="single"] .bva-item {
+  gap: 3em;
+}
+
 .bva-item-vf {
   position: absolute;
   top: 0;
@@ -746,6 +800,10 @@ bva-button-icon:active {
   transition: 200ms;
 }
 
+.bva-animes-container[data-size="single"] .bva-item-thumb {
+  font-size: 16px;
+}
+
 .bva-item-thumb:focus-within {
   outline: none;
 }
@@ -757,6 +815,11 @@ bva-button-icon:active {
   border-radius: .25em;
   user-select: none;
   transition: 200ms;
+}
+
+.bva-animes-container[data-size="single"] .bva-item-thumbnail {
+  height: 225px;
+  width: 165px;
 }
 
 .bva-item-thumb:hover .bva-item-thumbnail,
@@ -954,7 +1017,7 @@ bva-button-icon:active {
   padding: 1em;
   margin-bottom: 1em;
   align-items: center;
-  gap: 1em;
+  gap: 2em;
   z-index: 10;
   border-bottom: 2px solid var(--color-primary);
   background-color: var(--color-background);
@@ -985,7 +1048,7 @@ bva-button-icon:active {
   border-color: var(--color-text);
 }
 
-@media only screen and (max-width: 640px) {
+@media only screen and (max-width: 960px) {
   .bva-header-logo {
     opacity: 0;
   }
@@ -999,6 +1062,7 @@ bva-button-icon:active {
 .bva-header-subcontainer {
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
   width: 100%;
   gap: 3em;
   margin: auto;
@@ -1327,7 +1391,7 @@ bva-button-icon:active {
   margin: auto;
   border-radius: .25em;
   border: 1px solid var(--color-hover);
-  padding: .25em .25em .25em .75em;
+  padding: .25em .75em .25em .75em;
   background-color: var(--color-background2);
 }
 
@@ -1350,13 +1414,6 @@ bva-button-icon:active {
 .bva-animes-search-inputs {
   position: relative;
   width: 100%;
-}
-
-.bva-animes-search-language {
-  display: flex;
-  gap: .5em;
-  align-items: center;
-  color: var(--color-text);
 }
 
 .bva-animes-search-results {
@@ -1560,6 +1617,8 @@ bva-button-icon:active {
 }
 
 .bva-anime-info-label {
+  display: flex;
+  align-items: center;
   width: 10em;
   color: var(--color-text);
 }
@@ -1641,4 +1700,64 @@ bva-button-icon:active {
 
 .bva-anime-episodes-show-all {
   margin: auto;
+}
+
+.bva-input {
+  display: flex;
+  gap: .5em;
+  align-items: center;
+  color: var(--color-text);
+}
+
+.bva-input[data-type="input"] {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background-color: var(--color-background2);
+  margin: 0;
+  border-radius: .25em;
+  border: 1px solid var(--color-hover);
+  padding: .25em .75em .25em .75em;
+}
+
+.bva-input[data-type="input"] > input {
+  height: 2em;
+}
+
+
+/* Form */
+bva-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+bva-form > .bva-input {
+  width: fit-content;
+}
+
+bva-form .bva-anime-info-label {
+  max-width: 25em;
+  width: 25vw;
+}
+
+bva-form .bva-form-group {
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
+}
+
+bva-form .bva-form-group > label:first-child {
+  margin: 0;
+}
+
+bva-form .bva-input:not(.bva-anime-info-value) {
+  width: 100%;
+}
+
+bva-form .bva-form-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1em;
+  margin-top: 1em;
 }

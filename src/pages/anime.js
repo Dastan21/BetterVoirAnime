@@ -7,12 +7,12 @@ import sortDownIcon from '../assets/icons/sort_down.svg'
 
 function getBreadcrumbItems () {
   return parseBreadcrumb().map(($l) => {
-    const text = $l.textContent.trim()
+    const label = $l.textContent.trim()
     return {
-      text: text === 'Home' ? 'Accueil' : capitalize(translateGenre(text)),
+      label: label === 'Home' ? 'Accueil' : capitalize(translateGenre(label)),
       attrs: {
         href: $l.firstElementChild?.getAttribute('href'),
-        title: text
+        title: label
       }
     }
   })
@@ -22,7 +22,6 @@ export function buildAnimesPage () {
   const $main = document.getElementById('bva-main')
 
   const anime = parseAnime()
-  console.log(anime)
   document.title = buildTitle(anime.title)
 
   const getInfos = () => {
@@ -39,7 +38,7 @@ export function buildAnimesPage () {
       else if (key === 'title_vf') ret.label = 'Titre français'
       else if (key === 'status') ret.label = 'Statut'
       else if (key === 'genres') {
-        ret.content = value.map((genre) => `<bva-link href="${genre.url}" title="${genre.name}">${genre.name}</bva-link>`).join(', \n')
+        ret.content = value.map((genre) => `<bva-link href="${genre.url}" title="${genre.label}">${genre.label}</bva-link>`).join(', \n')
         ret.title = ''
       } else if (key === 'start_date') {
         ret.content = toLocaleDate(value)

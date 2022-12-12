@@ -15,7 +15,7 @@ function getSelectEpisodes () {
   return collectionToArray(document.querySelectorAll('#manga-reading-nav-head .single-chapter-select option')).map(($o) => {
     const ep = $o.textContent.trim()
     return {
-      name: ep,
+      label: ep,
       value: ep,
       selected: location.href === $o.getAttribute('data-redirect'),
       attrs: {
@@ -34,12 +34,12 @@ function onSelectEpisode (item) {
 
 function getBreadcrumbItems () {
   return parseBreadcrumb().map(($l) => {
-    const text = $l.textContent.trim()
+    const label = $l.textContent.trim()
     return {
-      text: text === 'Home' ? 'Accueil' : capitalize(translateGenre(text)),
+      label: label === 'Home' ? 'Accueil' : capitalize(translateGenre(label)),
       attrs: {
         href: $l.firstElementChild?.getAttribute('href'),
-        title: text
+        title: label
       }
     }
   })
@@ -47,7 +47,7 @@ function getBreadcrumbItems () {
 
 function getHostTabs (hosts) {
   return hosts.map((h) => ({
-    text: h,
+    label: h,
     selected: h === document.querySelector('#manga-reading-nav-head .host-select')?.value?.replace('LECTEUR ', ''),
     attrs: {
       title: `Lecteur ${h}`,
@@ -69,7 +69,6 @@ export function buildEpisodePage () {
 
   const episode = parseEpisode()
   storage.set('bva-episode', location.href)
-  console.log(episode)
   document.title = buildTitle(episode.title)
 
   const createQuickNavigation = () => {
@@ -108,7 +107,7 @@ export function buildEpisodePage () {
   const $videoValidator = document.querySelector('.entry-content')
   attachDOM(createTabulation(getHostTabs(episode.hosts), onSelectTab), $episodeContainer, true)
   attachDOM(createBreadcrumb(getBreadcrumbItems()), $episodeContainer, '.bva-episode-navigation')
-  if (selectEpisodes.length > 1) attachDOM(createSelect(selectEpisodes, onSelectEpisode), $episodeContainer, '.bva-episode-navigation')
+  if (selectEpisodes.length > 1) attachDOM(createSelect({ options: selectEpisodes }, onSelectEpisode), $episodeContainer, '.bva-episode-navigation')
   attachDOM(createQuickNavigation(), $episodeContainer, '.bva-episode-navigation')
   attachDOM($videoValidator, $episodeContainer, '.bva-episode-video')
 

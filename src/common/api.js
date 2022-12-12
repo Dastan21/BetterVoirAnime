@@ -121,10 +121,11 @@ export async function getAutocomplete (search, language) {
 /**
  * Change current page.
  * @param {string} url
+ * @returns {Promise<void>}
  */
-export function changePage (url) {
+export async function changePage (url) {
   history.pushState({}, null, url)
-  request(location.href).then((html) => {
+  return request(location.href).then((html) => {
     window.body = html.body
     window.title = html.title
     const section = getCurrentSection(html.title)
