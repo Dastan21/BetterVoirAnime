@@ -41,6 +41,8 @@ const section = getCurrentSection()
 if (section === 'cloudflare') buildCloudflarePage()
 else buildPage(section)
 
+// footer
+attachDOM(document.querySelector('footer.site-footer'), document.getElementById('bva-footer'))
 // buttons focus
 document.querySelectorAll('bva-button, bva-button-icon').forEach($el => $el.setAttribute('tabindex', 0))
 // refresh

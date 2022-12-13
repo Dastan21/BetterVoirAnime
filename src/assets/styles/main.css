@@ -91,6 +91,15 @@ button {
   line-height: normal !important;
 }
 
+a {
+  color: var(--color-text) !important;
+}
+
+a:hover,
+a:focus {
+  color: var(--color-primary) !important;
+}
+
 /* Scrollbar */
 ::-webkit-scrollbar {
   width: 1em;
@@ -1233,90 +1242,14 @@ bva-button-icon:active {
 
 
 /* Footer */
-.bva-footer-container {
-  position: fixed;
-  bottom: 1.5em;
-  left: 1.5em;
+.site-footer {
+  padding: 2em 0 2em 0 !important;
+  border-top: 2px solid var(--color-background2) !important;
 }
 
-.bva-actions-toggle {
-  display: flex;
-  position: relative;
-  padding: .25em;
-  background-color: var(--color-background2);
-  border-radius: .7em;
+.social-icons {
+  background-color: var(--color-hover) !important;
 }
-
-.bva-actions-toggle svg {
-  width: 22px;
-  height: 22px;
-}
-
-.bva-actions-toggle[data-toggle] {
-  gap: .75em;
-}
-
-.bva-actions-toggle[data-toggle] .bva-actions-container {
-  overflow: visible;
-  width: 100%;
-}
-
-.bva-actions-container {
-  display: flex;
-  gap: .25em;
-  overflow: hidden;
-  width: 0;
-}
-
-.bva-action-btn {
-  display: flex;
-  position: relative;
-  padding: .5em;
-  cursor: pointer;
-  background-color: var(--color-background2);
-}
-
-.bva-action-btn svg {
-  color: var(--color-text2);
-}
-
-.bva-action-btn:hover svg {
-  color: var(--color-primary);
-}
-
-.bva-action-btn:hover .bva-action-tooltip {
-  visibility: visible;
-}
-
-.bva-action-tooltip {
-  visibility: hidden;
-  background-color: var(--color-primary);
-  color: #fff;
-  text-align: center;
-  border-radius: .25em;
-  padding: .3em .5em;
-  position: absolute;
-  z-index: 1;
-  bottom: 130%;
-  width: max-content;
-  transform: translateX(-50%);
-  left: 50%;
-  user-select: none;
-  cursor: auto;
-}
-
-.bva-action-tooltip::after {
-  content: " ";
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  margin-left: -8px;
-  border-width: 8px;
-  border-style: solid;
-  border-color: transparent;
-  border-top-color: var(--color-primary);
-}
-
 
 /* Main */
 .bva-main-container {
