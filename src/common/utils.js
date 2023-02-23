@@ -1,6 +1,6 @@
 import * as storage from './storage'
 
-export const BASE_URL = 'https://voiranime.com/'
+export const BASE_URL = location.origin
 
 export const NEED_REFRESH = ['episode']
 

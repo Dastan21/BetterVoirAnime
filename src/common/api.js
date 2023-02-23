@@ -1,7 +1,7 @@
 import { BASE_URL, getCurrentSection, NEED_REFRESH, onTrigger } from './utils'
 import { parseHTML, parseFormData } from './parser'
 
-export const API_URL = `${BASE_URL}wp-admin/admin-ajax.php`
+export const API_URL = `${BASE_URL}/wp-admin/admin-ajax.php`
 export const API_OPTIONS = 'current_page_id=15&qtranslate_lang=0&filters_changed=0&filters_initial=1&asp_gen%5B%5D=title&asp_gen%5B%5D=content&asp_gen%5B%5D=excerpt&customset%5B%5D=wp-manga&aspf%5Bvf__1%5D=vf'
 
 window.cache = new Map()

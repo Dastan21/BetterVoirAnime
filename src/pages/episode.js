@@ -120,7 +120,6 @@ export function buildEpisodePage () {
 
     if (checkingCaptcha) return
     checkingCaptcha = true
-    document.getElementById('wp-manga-current-chap')?.remove()
     setEpisodeClass()
     // auto valid video
     observe('#chapter-video-captcha-validator .btn[type="submit"]', ($btn) => {

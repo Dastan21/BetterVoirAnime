@@ -95,10 +95,10 @@ const menuTab = {
         title: 'Découvrir un animé'
       },
       action: () => {
-        request(`${BASE_URL}liste-danimes/`).then((res) => {
+        request(`${BASE_URL}/liste-danimes/`).then((res) => {
           const totalPages = res.body.querySelector('.wp-pagenavi .last').getAttribute('href').match(/(\d*)\/$/)?.[1]
           const page = Math.floor((Math.random() * totalPages)) + 1
-          request(`${BASE_URL}liste-danimes/page/${page}/`, { abortPrevious: true }).then((res) => {
+          request(`${BASE_URL}/liste-danimes/page/${page}/`, { abortPrevious: true }).then((res) => {
             const animes = collectionToArray(res.body.querySelectorAll('.page-listing-item .item-thumb a'))
             const randomAnimeUrl = animes[~~(Math.random() * animes.length)].getAttribute('href')
             changePage(randomAnimeUrl)

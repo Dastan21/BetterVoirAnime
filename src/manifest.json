@@ -1,6 +1,6 @@
 {
   "name": "Better VoirAnime",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "manifest_version": 3,
   "description": "A powerful UI/UX changer for 'voiranime.com'",
   "icons": {
@@ -16,14 +16,14 @@
       "style.css"
     ],
     "matches": [
-      "*://voiranime.com/*"
+      "*://*.voiranime.com/*"
     ],
     "exclude_matches": [
-      "*://voiranime.com/wp-content/*",
-      "*://voiranime.com/wp-admin/*",
-      "*://voiranime.com/wp-login*",
-      "*://voiranime.com/feed/*",
-      "*://voiranime.com/user-settings*"
+      "*://*.voiranime.com/wp-content/*",
+      "*://*.voiranime.com/wp-admin/*",
+      "*://*.voiranime.com/wp-login*",
+      "*://*.voiranime.com/feed/*",
+      "*://*.voiranime.com/user-settings*"
     ]
   }],
   "web_accessible_resources": [{
@@ -31,14 +31,14 @@
       "public/**/*.*"
     ],
     "matches": [
-      "*://voiranime.com/*"
+      "*://*.voiranime.com/*"
     ],
     "exclude_matches": [
-      "*://voiranime.com/wp-content/*",
-      "*://voiranime.com/wp-admin/*",
-      "*://voiranime.com/wp-login*",
-      "*://voiranime.com/feed/*",
-      "*://voiranime.com/user-settings*"
+      "*://*.voiranime.com/wp-content/*",
+      "*://*.voiranime.com/wp-admin/*",
+      "*://*.voiranime.com/wp-login*",
+      "*://*.voiranime.com/feed/*",
+      "*://*.voiranime.com/user-settings*"
     ]
   }],
   "permissions": [

@@ -73,7 +73,7 @@ export function parseAnime (root = window.body) {
     if (key === 'genre(s)' || key === 'genres') {
       anime.genres = value.toLowerCase().split(', ').map((genre) => ({
         label: capitalize(translateGenre(genre)),
-        url: `${BASE_URL}anime-genre/${encodeURI(genre)}`
+        url: `${BASE_URL}/anime-genre/${encodeURI(genre)}`
       }))
     }
   })
@@ -90,11 +90,11 @@ export function parseEpisode (root = window.body) {
   const $nav = root.querySelector('#manga-reading-nav-head')
   const title = root.querySelector('.breadcrumb > li.active').textContent.trim()
   return {
-    id: $ids.getAttribute('data-chapter'),
+    id: $ids?.getAttribute('data-chapter') ?? root.querySelector('[name="wp_manga_chapter_id"]')?.getAttribute('value'),
     title,
     hosts: collectionToArray($nav.querySelectorAll('.host-select > option')).map((o) => o.value.replace('LECTEUR ', '')),
     anime: {
-      id: $ids.getAttribute('data-post'),
+      id: $ids?.getAttribute('data-post') ?? $nav.getAttribute('data-id'),
       title: title.split(' - ')[0]
     }
   }

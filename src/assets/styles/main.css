@@ -960,6 +960,10 @@ bva-button-icon:active {
   aspect-ratio: 16 / 9;
 }
 
+#chapter-video-captcha-validator > :not(.g-recaptcha) {
+  display: none;
+}
+
 .bva-episode-video p {
   padding: 0 !important;
   margin: 0 !important;
