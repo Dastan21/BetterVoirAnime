@@ -9,7 +9,7 @@ export function parseHTML (html = document.documentElement.innerHTML) {
   const body = matchTag(html, 'body')
   return {
     title: unescapeHTML(matchTag(html, 'title')),
-    body: body && createDOM(`<div>${body}</div>`)[0]
+    body: body && createDOM(`<body>${body}</body>`).find($el => $el.tagName === 'DIV')
   }
 }
 
