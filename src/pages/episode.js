@@ -1,7 +1,7 @@
 import { createBreadcrumb, createSelect, createTabulation } from '../common/components'
-import { attachDOM, innerDOM, capitalize, collectionToArray, createDOM, observe, translateGenre, translateQuickNavigation, buildTitle } from '../common/utils'
 import { parseBreadcrumb, parseEpisode } from '../common/parser'
 import * as storage from '../common/storage'
+import { attachDOM, buildTitle, capitalize, collectionToArray, createDOM, innerDOM, observe, translateGenre, translateQuickNavigation } from '../common/utils'
 
 import arrowIcon from '../assets/icons/arrow.svg'
 import { changePage } from '../common/api'
@@ -114,7 +114,7 @@ export function buildEpisodePage () {
   // display captcha puzzle
   let checkingCaptcha = false
   observe('body', () => {
-    const $captchas = document.querySelectorAll('body > div > div > iframe[title*="reCAPTCHA"]')
+    const $captchas = document.querySelectorAll('body > div > div > iframe[src*="recaptcha"]')
     if ($captchas.length <= 0) return
     $captchas.forEach(($c) => $c.parentElement.parentElement.classList.toggle('bva-captcha-puzzle', true))
 
