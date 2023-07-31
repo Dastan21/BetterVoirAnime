@@ -1,8 +1,8 @@
+import terser from '@rollup/plugin-terser'
 import { chromeExtension, simpleReloader } from 'rollup-plugin-chrome-extension'
-import css from 'rollup-plugin-import-css'
 import copy from 'rollup-plugin-copy'
+import css from 'rollup-plugin-import-css'
 import svg from 'rollup-plugin-svg-import'
-import { terser } from 'rollup-plugin-terser'
 
 const isProd = process.env.NODE_ENV !== 'development'
 
