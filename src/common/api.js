@@ -1,5 +1,5 @@
-import { BASE_URL, getCurrentSection, NEED_REFRESH, onTrigger } from './utils'
-import { parseHTML, parseFormData } from './parser'
+import { parseFormData, parseHTML } from './parser'
+import { BASE_URL, NEED_REFRESH, getCurrentSection, onTrigger } from './utils'
 
 export const API_URL = `${BASE_URL}/wp-admin/admin-ajax.php`
 export const API_OPTIONS = 'current_page_id=15&qtranslate_lang=0&filters_changed=0&filters_initial=1&asp_gen%5B%5D=title&asp_gen%5B%5D=content&asp_gen%5B%5D=excerpt&customset%5B%5D=wp-manga&aspf%5Bvf__1%5D=vf'
@@ -88,7 +88,7 @@ export async function fetchAnimes (search, language) {
       options: API_OPTIONS
     }
   }).then(async (data) => {
-    data = data.replace(/\n/gm, '').match(/!!ASPSTART_DATA!!(.*)!!ASPEND_DATA!!/)?.[1] ?? []
+    data = data.replace(/\n/gm, '').match(/ASPSTART_DATA___(.*)___ASPEND_DATA/)?.[1] ?? []
     try {
       data = JSON.parse(data)
     } catch (error) {
