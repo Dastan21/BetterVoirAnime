@@ -1,9 +1,10 @@
 import { createBreadcrumb, createSelect, createTabulation } from '../common/components'
 import { parseBreadcrumb, parseEpisode } from '../common/parser'
 import * as storage from '../common/storage'
-import { attachDOM, buildTitle, capitalize, collectionToArray, createDOM, innerDOM, observe, translateGenre, translateQuickNavigation } from '../common/utils'
+import { attachDOM, buildTitle, capitalize, collectionToArray, createDOM, innerDOM, observe, onTrigger, translateGenre, translateQuickNavigation } from '../common/utils'
 
 import arrowIcon from '../assets/icons/arrow.svg'
+import downloadIcon from '../assets/icons/download.svg'
 import { changePage } from '../common/api'
 
 function setEpisodeClass () {
@@ -93,11 +94,23 @@ export function buildEpisodePage () {
     return $quickNavigation
   }
 
+  const episodeDownloader = (title, number) => {
+    console.log(title, number)
+    const torrentsUrl = `https://nyaa.si/?f=0&c=0_0&q=%221080p%22%20VOSTFR%7CFR+${encodeURI(`"${title.replace(' ', '+')}"+"${number} "`)}`
+    const $button = createDOM(`<bva-button-icon class="bva-button" title="Télécharger l'épisode" data-sort="down">${downloadIcon}</bva-button-icon>`)
+    onTrigger($button, () => {
+      open(torrentsUrl, '_blank')
+    })
+    return $button
+  }
+
   const $episodeContainer = createDOM(`
     <div class="bva-content-wrapper">
       <div class="bva-content-container">
         <div class="bva-episode-container">
-          <div class="bva-episode-navigation"></div>
+          <div class="bva-episode-navigation">
+            <div class="bva-episode-list"></div>
+          </div>
           <div class="bva-episode-video"></div>
         </div>
       </div>
@@ -106,8 +119,9 @@ export function buildEpisodePage () {
   const selectEpisodes = getSelectEpisodes()
   const $videoValidator = document.querySelector('.entry-content')
   attachDOM(createTabulation(getHostTabs(episode.hosts), onSelectTab), $episodeContainer, true)
-  attachDOM(createBreadcrumb(getBreadcrumbItems()), $episodeContainer, '.bva-episode-navigation')
-  if (selectEpisodes.length > 1) attachDOM(createSelect({ options: selectEpisodes }, onSelectEpisode), $episodeContainer, '.bva-episode-navigation')
+  attachDOM(createBreadcrumb(getBreadcrumbItems()), $episodeContainer, '.bva-episode-navigation', true)
+  if (selectEpisodes.length > 1) attachDOM(createSelect({ options: selectEpisodes }, onSelectEpisode), $episodeContainer, '.bva-episode-list')
+  attachDOM(episodeDownloader(episode.title.split(' - ')[0], selectEpisodes.find(e => e.selected).value), $episodeContainer, '.bva-episode-list', true)
   attachDOM(createQuickNavigation(), $episodeContainer, '.bva-episode-navigation')
   attachDOM($videoValidator, $episodeContainer, '.bva-episode-video')
 

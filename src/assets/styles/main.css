@@ -988,6 +988,11 @@ bva-button-icon:active {
   justify-content: space-between;
 }
 
+.bva-episode-list {
+  display: flex;
+  gap: 1em;
+}
+
 .bva-quick-navigation {
   display: grid;
   grid-template-columns: 10em 1fr 10em;
