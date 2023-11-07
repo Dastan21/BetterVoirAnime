@@ -95,7 +95,6 @@ export function buildEpisodePage () {
   }
 
   const episodeDownloader = (title, number) => {
-    console.log(title, number)
     const torrentsUrl = `https://nyaa.si/?f=0&c=0_0&q=%221080p%22%20VOSTFR%7CFR+${encodeURI(`"${title.replace(' ', '+')}"+"${number} "`)}`
     const $button = createDOM(`<bva-button-icon class="bva-button" title="Télécharger l'épisode" data-sort="down">${downloadIcon}</bva-button-icon>`)
     onTrigger($button, () => {
