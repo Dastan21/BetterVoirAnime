@@ -1,12 +1,12 @@
 import './assets/styles/main.css'
 
-import { attachDOM, defaultTheme, getCurrentSection } from './common/utils'
 import { changePage, setupLinks } from './common/api'
 import * as storage from './common/storage'
+import { attachDOM, defaultTheme, getCurrentSection } from './common/utils'
 
 import { buildHeader } from './common/header'
-import { buildCloudflarePage } from './pages/cloudflare'
 import { buildAnimesPage } from './pages/anime'
+import { buildCloudflarePage } from './pages/cloudflare'
 import { buildEpisodePage } from './pages/episode'
 import { buildHomePage } from './pages/home'
 
@@ -29,33 +29,38 @@ attachDOM(`
   </div>
 `, document.body)
 
-function buildPage (section) {
+async function buildPage (section) {
   buildHeader()
   switch (section) {
-    case 'anime': buildAnimesPage(); break
-    case 'episode': buildEpisodePage(); break
-    default: buildHomePage()
+    case 'anime': await buildAnimesPage(); break
+    case 'episode': await buildEpisodePage(); break
+    default: await buildHomePage()
   }
 }
 const section = getCurrentSection()
-if (section === 'cloudflare') buildCloudflarePage()
-else buildPage(section)
 
-// footer
-attachDOM(document.querySelector('footer.site-footer'), document.getElementById('bva-footer'))
-// buttons focus
-document.querySelectorAll('bva-button, bva-button-icon').forEach($el => $el.setAttribute('tabindex', 0))
-// refresh
-addEventListener('bva-refresh', () => {
-  buildPage(document.getElementById('bva-root').getAttribute('bva-section'))
+async function build () {  
+  if (section === 'cloudflare') await buildCloudflarePage()
+  else await buildPage(section)
+}
+
+build().then(() => {
+  // footer
+  attachDOM(document.querySelector('footer.site-footer'), document.getElementById('bva-footer'))
+  // buttons focus
+  document.querySelectorAll('bva-button, bva-button-icon').forEach($el => $el.setAttribute('tabindex', 0))
+  // refresh
+  addEventListener('bva-refresh', async () => {
+    await buildPage(document.getElementById('bva-root').getAttribute('bva-section'))
+    setupLinks()
+  }, false)
+  // links
   setupLinks()
-}, false)
-// links
-setupLinks()
-// history
-history.replaceState([], null, location.href)
-addEventListener('popstate', () => {
-  changePage(location.href)
+  // history
+  history.replaceState([], null, location.href)
+  addEventListener('popstate', () => {
+    changePage(location.href)
+  })
+  // requests controller
+  window.requestController = new Map()
 })
-// requests controller
-window.requestController = new Map()

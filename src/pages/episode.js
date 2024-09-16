@@ -6,7 +6,6 @@ import { attachDOM, buildTitle, capitalize, collectionToArray, createDOM, innerD
 import arrowIcon from '../assets/icons/arrow.svg'
 import downloadIcon from '../assets/icons/download.svg'
 import { changePage } from '../common/api'
-import players from '../public/players.js'
 
 function setEpisodeClass () {
   const query = '.entry-content, .entry-content_wrap, .read-container, .reading-content, .chapter-video-frame, .chapter-video-frame > *'
@@ -47,7 +46,7 @@ function getBreadcrumbItems () {
   })
 }
 
-function getHostTabs (hosts, episode) {
+function getHostTabs (hosts, episode, players) {
   const $hostSelect = document.querySelector('#manga-reading-nav-head .host-select')
 
   const tabs = hosts.map((h) => ({
@@ -105,12 +104,17 @@ function onSelectTab (tab) {
   setEpisodeClass()
 }
 
-export function buildEpisodePage () {
+export async function buildEpisodePage () {
   const $main = document.getElementById('bva-main')
 
   const episode = parseEpisode()
   storage.set('bva-episode', location.href)
   document.title = buildTitle(episode.title)
+
+  const players = await fetch(chrome.runtime.getURL('public/players.json')).then((r) => r.json()).catch((err) => {
+    console.error(err)
+    return []
+  })
 
   const createQuickNavigation = () => {
     const createQuickBtn = (type) => {
@@ -157,7 +161,7 @@ export function buildEpisodePage () {
   `)
   const selectEpisodes = getSelectEpisodes()
   const $videoValidator = document.querySelector('.entry-content')
-  attachDOM(createTabulation(getHostTabs(episode.hosts, episode), onSelectTab), $episodeContainer, true)
+  attachDOM(createTabulation(getHostTabs(episode.hosts, episode, players), onSelectTab), $episodeContainer, true)
   attachDOM(createBreadcrumb(getBreadcrumbItems()), $episodeContainer, '.bva-episode-navigation', true)
   if (selectEpisodes.length > 1) attachDOM(createSelect({ options: selectEpisodes }, onSelectEpisode), $episodeContainer, '.bva-episode-list')
   attachDOM(episodeDownloader(episode.title.split(' - ')[0], selectEpisodes.find(e => e.selected).value), $episodeContainer, '.bva-episode-list', true)

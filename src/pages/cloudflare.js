@@ -1,7 +1,7 @@
 import '../assets/styles/cloudflare.css'
 import { attachDOM } from '../common/utils'
 
-export function buildCloudflarePage () {
+export async function buildCloudflarePage () {
   window.body.toggleAttribute('data-cloudflare')
   attachDOM(`
     <div id="loader">

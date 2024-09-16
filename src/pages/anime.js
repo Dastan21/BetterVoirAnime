@@ -1,9 +1,9 @@
 import { createBreadcrumb, createRating } from '../common/components'
-import { attachDOM, innerDOM, capitalize, createDOM, onTrigger, toLocaleDate, translateGenre, buildTitle } from '../common/utils'
 import { parseAnime, parseBreadcrumb } from '../common/parser'
+import { attachDOM, buildTitle, capitalize, createDOM, innerDOM, onTrigger, toLocaleDate, translateGenre } from '../common/utils'
 
-import sortUpIcon from '../assets/icons/sort_up.svg'
 import sortDownIcon from '../assets/icons/sort_down.svg'
+import sortUpIcon from '../assets/icons/sort_up.svg'
 
 function getBreadcrumbItems () {
   return parseBreadcrumb().map(($l) => {
@@ -18,7 +18,7 @@ function getBreadcrumbItems () {
   })
 }
 
-export function buildAnimesPage () {
+export async function buildAnimesPage () {
   const $main = document.getElementById('bva-main')
 
   const anime = parseAnime()

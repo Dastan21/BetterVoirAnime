@@ -1,13 +1,13 @@
-import { attachDOM, createDOM, getPagination, onTrigger, querySelectorList, toLocaleDate, isEmpty, onClickOutside, innerDOM, collectionToArray, getCurrentSection, buildTitle, capitalize, translateGenre } from '../common/utils'
+import { changePage, fetchAnimes, setupLinks } from '../common/api'
 import { createEmptyDataMessage, createForm, createRating, createSwitch, createTabulation, createUnorderedList } from '../common/components'
 import { parseAnimeList, parseGenreList, parseSearchOptions, parseTabs } from '../common/parser'
-import { changePage, fetchAnimes, setupLinks } from '../common/api'
+import { attachDOM, buildTitle, capitalize, collectionToArray, createDOM, getCurrentSection, getPagination, innerDOM, isEmpty, onClickOutside, onTrigger, querySelectorList, toLocaleDate, translateGenre } from '../common/utils'
 
-import vfMarkIcon from '../assets/icons/vf_mark.svg'
-import searchIcon from '../assets/icons/search.svg'
 import loadingIcon from '../assets/icons/loading.svg'
+import searchIcon from '../assets/icons/search.svg'
+import vfMarkIcon from '../assets/icons/vf_mark.svg'
 
-export function buildHomePage () {
+export async function buildHomePage () {
   document.title = buildTitle('#1 de l\'anime en france')
   const $main = document.getElementById('bva-main')
   const section = getCurrentSection()

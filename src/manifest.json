@@ -24,7 +24,7 @@
   ],
   "web_accessible_resources": [
     {
-      "resources": ["public/**/*.*"],
+      "resources": ["public/**/*.*", "public/players.json"],
       "matches": ["*://*.voiranime.com/*"],
       "exclude_matches": [
         "*://*.voiranime.com/wp-content/*",

@@ -38,16 +38,16 @@ You're more than welcome to report your feedback or issues with the app in [the 
 
 # 📺 Custom episode players
 
-You can add a custom episode player (if you want to use a custom one you made) by editing the file `public/players.js` and adding a new entry like this:
+You can add a custom episode player (if you want to use a custom one you made) by editing the file `public/players.json` and adding a new entry like this:
 
-```js
-export default [
+```json
+[
   {
-    id: "player-id",
-    name: "My Player",
-    url: "http://url-of-the-player.com/$id",
-  },
-];
+    "id": "player-id",
+    "name": "My Player",
+    "url": "http://url-of-the-player.com/$id"
+  }
+]
 ```
 
 > Note that you can use the special variable `$id` in the url of the player, which will be replaced by the id of the current episode.
