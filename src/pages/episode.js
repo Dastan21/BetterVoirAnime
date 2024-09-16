@@ -6,6 +6,7 @@ import { attachDOM, buildTitle, capitalize, collectionToArray, createDOM, innerD
 import arrowIcon from '../assets/icons/arrow.svg'
 import downloadIcon from '../assets/icons/download.svg'
 import { changePage } from '../common/api'
+import players from '../public/players.js'
 
 function setEpisodeClass () {
   const query = '.entry-content, .entry-content_wrap, .read-container, .reading-content, .chapter-video-frame, .chapter-video-frame > *'
@@ -46,22 +47,61 @@ function getBreadcrumbItems () {
   })
 }
 
-function getHostTabs (hosts) {
-  return hosts.map((h) => ({
+function getHostTabs (hosts, episode) {
+  const $hostSelect = document.querySelector('#manga-reading-nav-head .host-select')
+
+  const tabs = hosts.map((h) => ({
     label: h,
-    selected: h === document.querySelector('#manga-reading-nav-head .host-select')?.value?.replace('LECTEUR ', ''),
+    selected: h === $hostSelect?.value?.replace('LECTEUR ', '') && players.length <= 0,
     attrs: {
       title: `Lecteur ${h}`,
       value: `LECTEUR ${h}`
     }
   }))
+
+  const customTabs = players.map((tab, i) => ({
+    label: tab.name,
+    selected: i === 0,
+    attrs: {
+      title: tab.name,
+      value: tab.id
+    },
+    select: () => {
+      document.querySelector('.entry-content .reading-content .chapter-video-frame').innerHTML = `
+        <iframe
+          src="${tab.url.replace('$id', episode.id)}"
+          loading="lazy"
+          frameBorder="0"
+          scrolling="no"
+          frameborder="0"
+          width="100%"
+          height="100%"
+          allowfullscreen="true"
+          webkitallowfullscreen="true"
+          mozallowfullscreen="true"
+        >
+      `
+    }
+  }))
+  tabs.unshift(...customTabs)
+
+  onSelectTab(tabs[0])
+
+  return tabs
 }
 
 function onSelectTab (tab) {
   const $hostSelect = document.querySelector('#manga-reading-nav-head .host-select')
   if ($hostSelect == null) return
+
   $hostSelect.value = tab.attrs.value
-  $hostSelect.dispatchEvent(new Event('change', { bubbles: true }))
+
+  if (typeof tab.select !== 'function') {
+    $hostSelect.dispatchEvent(new Event('change', { bubbles: true }))
+  } else {
+    tab.select()
+  }
+
   setEpisodeClass()
 }
 
@@ -117,7 +157,7 @@ export function buildEpisodePage () {
   `)
   const selectEpisodes = getSelectEpisodes()
   const $videoValidator = document.querySelector('.entry-content')
-  attachDOM(createTabulation(getHostTabs(episode.hosts), onSelectTab), $episodeContainer, true)
+  attachDOM(createTabulation(getHostTabs(episode.hosts, episode), onSelectTab), $episodeContainer, true)
   attachDOM(createBreadcrumb(getBreadcrumbItems()), $episodeContainer, '.bva-episode-navigation', true)
   if (selectEpisodes.length > 1) attachDOM(createSelect({ options: selectEpisodes }, onSelectEpisode), $episodeContainer, '.bva-episode-list')
   attachDOM(episodeDownloader(episode.title.split(' - ')[0], selectEpisodes.find(e => e.selected).value), $episodeContainer, '.bva-episode-list', true)

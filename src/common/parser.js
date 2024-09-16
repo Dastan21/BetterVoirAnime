@@ -86,15 +86,14 @@ export function parseAnimeList (root = window.body) {
 }
 
 export function parseEpisode (root = window.body) {
-  const $ids = root.querySelector('.wp-manga-action-button')
   const $nav = root.querySelector('#manga-reading-nav-head')
   const title = root.querySelector('.breadcrumb > li.active').textContent.trim()
   return {
-    id: $ids?.getAttribute('data-chapter') ?? root.querySelector('[name="wp_manga_chapter_id"]')?.getAttribute('value'),
+    id: $nav.getAttribute('data-chapter'),
     title,
     hosts: collectionToArray($nav.querySelectorAll('.host-select > option')).map((o) => o.value.replace('LECTEUR ', '')),
     anime: {
-      id: $ids?.getAttribute('data-post') ?? $nav.getAttribute('data-id'),
+      id: $nav.getAttribute('data-id'),
       title: title.split(' - ')[0]
     }
   }

@@ -46,31 +46,6 @@ export async function request (url, data) {
 }
 
 /**
- * Get video iframe.
- * @param {number} manga
- * @param {number} chapter
- * @param {string} host
- * @param {string} grecaptcha
- * @returns {Promise<string>}
- */
-export async function getVideo (manga, chapter, host, grecaptcha) {
-  if (grecaptcha == null) throw new Error('Invalid captcha')
-  return request(API_URL, {
-    method: 'POST',
-    body: {
-      action: 'get_video_chapter_content',
-      grecaptcha,
-      manga,
-      chapter,
-      host
-    }
-  }).then((data) => {
-    if (data === 0) throw new Error('Failed to fetch video')
-    return data.data
-  })
-}
-
-/**
  * Search animes.
  * @param {string} search
  * @param {'VOSTFR'|'VF'} language
