@@ -6,7 +6,6 @@ import { attachDOM, defaultTheme, getCurrentSection } from './common/utils'
 
 import { buildHeader } from './common/header'
 import { buildAnimesPage } from './pages/anime'
-import { buildCloudflarePage } from './pages/cloudflare'
 import { buildEpisodePage } from './pages/episode'
 import { buildHomePage } from './pages/home'
 
@@ -22,7 +21,7 @@ window.body = document.body
 window.title = document.title
 window.cache.set(location.href, { body: window.body, title: document.title })
 attachDOM(`
-  <div id="bva-root">
+  <div id="bva-root" data-hide>
     <header id="bva-header" class="bva-header-container"></header>
     <main id="bva-main" class="bva-main-container"></main>
     <footer id="bva-footer" class="bva-footer-container"></footer>
@@ -37,11 +36,14 @@ async function buildPage (section) {
     default: await buildHomePage()
   }
 }
-const section = getCurrentSection()
 
-async function build () {  
-  if (section === 'cloudflare') await buildCloudflarePage()
-  else await buildPage(section)
+async function build () {
+  const section = getCurrentSection()
+  if (section === 'cloudflare') return
+
+  await buildPage(section)
+
+  document.getElementById('bva-root').removeAttribute('data-hide')
 }
 
 build().then(() => {
@@ -51,7 +53,7 @@ build().then(() => {
   document.querySelectorAll('bva-button, bva-button-icon').forEach($el => $el.setAttribute('tabindex', 0))
   // refresh
   addEventListener('bva-refresh', async () => {
-    await buildPage(document.getElementById('bva-root').getAttribute('bva-section'))
+    await buildPage(getCurrentSection())
     setupLinks()
   }, false)
   // links

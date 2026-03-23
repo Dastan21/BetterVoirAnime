@@ -18,7 +18,7 @@ export function getCurrentSection (title = window.title) {
   let section = bvaRoot.getAttribute('bva-section')
   if (section != null && title == null) return section
   title = title.toLowerCase()
-  if (document.body.classList.contains('no-js')) section = 'cloudflare'
+  if (document.body.classList.contains('transition') && window.body.querySelector('body > .main-wrapper') != null) section = 'cloudflare'
   else if (title.startsWith('liste d\'animes')) section = 'anime-list'
   else if (title.startsWith('you searched for')) section = 'search'
   else if (title.endsWith('archives - voiranime') || title.includes('archives - page ')) section = 'genre-list'

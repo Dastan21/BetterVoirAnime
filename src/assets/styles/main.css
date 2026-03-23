@@ -50,7 +50,7 @@ html[data-theme="nord"] {
 }
 
 .ad,
-body:not([data-cloudflare]) > :not(#bva-root):not(.bva-captcha-puzzle),
+body.home > .wrap,
 [data-hide] {
   display: none !important;
 }

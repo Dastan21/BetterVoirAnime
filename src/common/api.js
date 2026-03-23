@@ -52,7 +52,7 @@ export async function request (url, data) {
  * @returns {Promise<string>}
  */
 export async function fetchAnimes (search, language) {
-  const languageCode = language === 'VF' ? 3 : 4
+  const languageCode = language === 'VF' ? 2 : 3
   return request(API_URL, {
     method: 'POST',
     body: {
