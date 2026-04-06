@@ -1,6 +1,6 @@
 {
   "name": "Better VoirAnime",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "manifest_version": 3,
   "description": "A powerful UI/UX changer for 'voiranime.com'",
   "icons": {
@@ -12,26 +12,36 @@
     {
       "js": ["script.js"],
       "css": ["style.css"],
-      "matches": ["*://*.voiranime.com/*"],
+      "matches": ["*://*.voiranime.com/*", "*://*.voir-anime.to/*"],
       "exclude_matches": [
         "*://*.voiranime.com/wp-content/*",
         "*://*.voiranime.com/wp-admin/*",
         "*://*.voiranime.com/wp-login*",
         "*://*.voiranime.com/feed/*",
-        "*://*.voiranime.com/user-settings*"
+        "*://*.voiranime.com/user-settings*",
+        "*://*.voir-anime.to/wp-content/*",
+        "*://*.voir-anime.to/wp-admin/*",
+        "*://*.voir-anime.to/wp-login*",
+        "*://*.voir-anime.to/feed/*",
+        "*://*.voir-anime.to/user-settings*"
       ]
     }
   ],
   "web_accessible_resources": [
     {
       "resources": ["public/**/*.*", "public/players.json"],
-      "matches": ["*://*.voiranime.com/*"],
+      "matches": ["*://*.voiranime.com/*", "*://*.voir-anime.to/*"],
       "exclude_matches": [
         "*://*.voiranime.com/wp-content/*",
         "*://*.voiranime.com/wp-admin/*",
         "*://*.voiranime.com/wp-login*",
         "*://*.voiranime.com/feed/*",
-        "*://*.voiranime.com/user-settings*"
+        "*://*.voiranime.com/user-settings*",
+        "*://*.voir-anime.to/wp-content/*",
+        "*://*.voir-anime.to/wp-admin/*",
+        "*://*.voir-anime.to/wp-login*",
+        "*://*.voir-anime.to/feed/*",
+        "*://*.voir-anime.to/user-settings*"
       ]
     }
   ],
