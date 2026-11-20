@@ -1,6 +1,6 @@
 {
   "name": "Better VoirAnime",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "manifest_version": 3,
   "description": "A powerful UI/UX changer for 'voiranime.com'",
   "icons": {
@@ -10,9 +10,17 @@
   },
   "content_scripts": [
     {
-      "js": ["script.js"],
-      "css": ["style.css"],
-      "matches": ["*://*.voiranime.com/*", "*://*.voir-anime.to/*"],
+      "js": [
+        "script.js"
+      ],
+      "css": [
+        "style.css"
+      ],
+      "matches": [
+        "*://*.voiranime.com/*",
+        "*://*.voir-anime.to/*",
+        "*://*.voiranime.cx/*"
+      ],
       "exclude_matches": [
         "*://*.voiranime.com/wp-content/*",
         "*://*.voiranime.com/wp-admin/*",
@@ -23,14 +31,26 @@
         "*://*.voir-anime.to/wp-admin/*",
         "*://*.voir-anime.to/wp-login*",
         "*://*.voir-anime.to/feed/*",
-        "*://*.voir-anime.to/user-settings*"
+        "*://*.voir-anime.to/user-settings*",
+        "*://*.voiranime.cx/wp-content/*",
+        "*://*.voiranime.cx/wp-admin/*",
+        "*://*.voiranime.cx/wp-login*",
+        "*://*.voiranime.cx/feed/*",
+        "*://*.voiranime.cx/user-settings*"
       ]
     }
   ],
   "web_accessible_resources": [
     {
-      "resources": ["public/**/*.*", "public/players.json"],
-      "matches": ["*://*.voiranime.com/*", "*://*.voir-anime.to/*"],
+      "resources": [
+        "public/**/*.*",
+        "public/players.json"
+      ],
+      "matches": [
+        "*://*.voiranime.com/*",
+        "*://*.voir-anime.to/*",
+        "*://*.voiranime.cx/*"
+      ],
       "exclude_matches": [
         "*://*.voiranime.com/wp-content/*",
         "*://*.voiranime.com/wp-admin/*",
@@ -41,9 +61,16 @@
         "*://*.voir-anime.to/wp-admin/*",
         "*://*.voir-anime.to/wp-login*",
         "*://*.voir-anime.to/feed/*",
-        "*://*.voir-anime.to/user-settings*"
+        "*://*.voir-anime.to/user-settings*",
+        "*://*.voiranime.cx/wp-content/*",
+        "*://*.voiranime.cx/wp-admin/*",
+        "*://*.voiranime.cx/wp-login*",
+        "*://*.voiranime.cx/feed/*",
+        "*://*.voiranime.cx/user-settings*"
       ]
     }
   ],
-  "permissions": ["storage"]
+  "permissions": [
+    "storage"
+  ]
 }
